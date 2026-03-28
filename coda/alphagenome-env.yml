@@ -1,0 +1,17 @@
+name: alphagenome-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - ipykernel
+  - jupyterlab
+  - notebook
+  - ipywidgets
+  - pandas
+  - numpy
+  - matplotlib
+  - tqdm
+  - pip:
+      - alphagenome
