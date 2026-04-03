@@ -1,4 +1,4 @@
-# COL4A5 Deep Intronic Variation Hotspot
+# A deep intronic mutational hotspot in COL4A5 enables RNA-based personalized therapy in Alport syndrome
 
 This repository contains scripts and notebooks used to generate figures for the manuscript on deep intronic variation hotspot(s) in `COL4A5` responsible for X-linked Alport syndrome. 
 
