@@ -9,3 +9,8 @@ notebooks/02_postprocessing_plots_summary/plots_alphagenome_ISM/
 notebooks/02_postprocessing_plots_summary/plots_alphagenome_genomAD/
 notebooks/02_postprocessing_plots_summary/plots_patients_cohort/
 notebooks/02_postprocessing_plots_summary/motif_analysis.GseaPreranked.*/
+
+# Targeted RNA-seq BAM files and indexes (too large for git; tracked via samples.tsv)
+Targeted_rnaseq/bams/
+*.bam
+*.bam.bai

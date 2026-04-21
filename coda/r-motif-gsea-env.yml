@@ -1,0 +1,19 @@
+name: r-motif-gsea-env
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.10
+  - jupyterlab
+  - notebook
+  - r-base>=4.3
+  - r-irkernel
+  - r-biocmanager
+  - r-ggplot2
+  - r-pheatmap
+  - r-ggseqlogo
+  - c-compiler
+  - cxx-compiler
+  - fortran-compiler
+  - make
+  - pkg-config
+  - r-gdtools

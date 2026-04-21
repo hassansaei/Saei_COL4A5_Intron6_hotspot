@@ -28,7 +28,7 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
     - `motif_scores.rnk`
     - `motif_sets.gmt`
     - `motif_sequences.fasta`
-  - These files can be used for GSEA preranked analysis and motif visualization.
+  - These files is used for GSEA preranked analysis and motif visualization.
 
 ## Input dependencies
 

@@ -11,7 +11,7 @@ import pandas as pd
 from Bio.Seq import Seq
 
 # =====================================================
-#                 PARAMETERS
+# PARAMETERS
 # =====================================================
 INPUT_CSV = "plots_alphagenome_ISM/ism_variant_summary.csv"
 
@@ -28,7 +28,7 @@ WINDOW       = 7                # size for motif scoring (can be 5–8)
 SCORE_COLUMN = "Mean Quantile Score"   # use a continuous metric
 
 # =====================================================
-#                HELPER FUNCTION
+# HELPER FUNCTION
 # =====================================================
 def get_context(position, ref, alt, flank=3):
     """
@@ -50,7 +50,7 @@ def join_unique_variant_ids(values):
     return ";".join(str(v) for v in unique_ids)
 
 # =====================================================
-#              STEP 1 – LOAD VARIANTS
+# STEP 1 – LOAD VARIANTS
 # =====================================================
 df = pd.read_csv(INPUT_CSV)
 
@@ -71,7 +71,7 @@ df["Context7mer"] = df.apply(
 )
 
 # =====================================================
-#          STEP 2 – COMPUTE & RANK MOTIF SCORES
+# STEP 2 – COMPUTE & RANK MOTIF SCORES
 # =====================================================
 motif_scores = (
     df.groupby("Context7mer")
@@ -92,7 +92,7 @@ motif_scores[["Context7mer", SCORE_COLUMN]].to_csv(
 )
 
 # =====================================================
-#          STEP 3 – BUILD MOTIF SETS (.gmt)
+# STEP 3 – BUILD MOTIF SETS (.gmt)
 # =====================================================
 def make_motif_sets():
     motifs = motif_scores["Context7mer"].tolist()
@@ -120,7 +120,7 @@ def make_motif_sets():
 make_motif_sets()
 
 # =====================================================
-#          STEP 4 – FASTA FOR MEME / ggseqlogo
+# STEP 4 – FASTA FOR MEME / ggseqlogo
 # =====================================================
 with open(OUTPUT_FASTA, "w") as f:
     for _, row in motif_scores.iterrows():
