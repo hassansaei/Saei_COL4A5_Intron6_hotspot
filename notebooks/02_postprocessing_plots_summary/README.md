@@ -18,17 +18,30 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
 - `ISM_motif_annotation.ipynb`
   - Annotates motif-level ISM outputs.
   - Reads `motif_scores_table.csv` and writes `motif_scores_annotated.csv`.
+- `run_complementary_motif_analysis.ipynb` (R notebook, kernel `R (r-motif-gsea-env)`)
+  - Independent in-R reimplementation of motif GSEA, complementary to the Python/CLI GSEA preranked run.
+  - Reads `plots_alphagenome_ISM/motif_scores.rnk` and `plots_alphagenome_ISM/motif_sets.gmt`.
+  - Uses `clusterProfiler::GSEA` (via `fgsea`), with `enrichplot`, `ggseqlogo`, and `pheatmap` for visualization.
+  - Writes all outputs to `plots_alphagenome_ISM/complementary_motif_analysis/`:
+    - `gsea_results_r.csv`, `gsea_significant_sets_r.csv`
+    - `gsea_top_enriched_sets_r.csv`, `gsea_top_depleted_sets_r.csv`
+    - `gsea_top_sets_nes_r.png`
+    - `gsea_curve_enriched_<set>_r.png` and `gsea_curve_depleted_<set>_r.png` (top-N curves, default N = 5)
+    - `leading_edge_membership_heatmap_r.png` and a leading-edge sequence-logo PNG
+  - Tunable parameters in the first cell: `min_size`, `max_size`, `top_curves`, RNG seed.
 
 ## Script in this folder
 
 - `motif_enrichment_pipeline.py`
   - Input: `plots_alphagenome_ISM/ism_variant_summary.csv`
-  - Outputs:
-    - `motif_scores_table.csv`
-    - `motif_scores.rnk`
-    - `motif_sets.gmt`
-    - `motif_sequences.fasta`
-  - These files is used for GSEA preranked analysis and motif visualization.
+  - Builds a 7-mer (`Context7mer`) variant context using the hard-coded intron-6 `REFERENCE_SEQ` and `region_start = 108570633`; window size is controlled by `WINDOW` (5–8).
+  - Ranks motifs by `Mean Quantile Score` (configurable via `SCORE_COLUMN`).
+  - Outputs (written next to the script, in the working directory):
+    - `motif_scores_table.csv` — now includes a `Creating Variants` column listing the unique `Variant ID`s that produced each motif (preserves motif → variant traceability).
+    - `motif_scores.rnk` — two-column GSEA preranked input (`motif`, score).
+    - `motif_sets.gmt` — motif sets built from non-positional 3-mers, simple homopolymer repeats (`X-repeat`), and `CG-core`/`AG-core` families.
+    - `motif_sequences.fasta` — one record per unique motif, used by MEME / `ggseqlogo`.
+  - These files feed both the CLI GSEA preranked workflow and the R notebook above.
 
 ## Input dependencies
 
@@ -53,6 +66,8 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
   - `motif_sets.gmt`
   - `motif_sequences.fasta`
   - `motif_sequence_high_impact.fasta`
+  - `gsea_motif_analysis/` — per-motif-set HTML/TSV reports from the CLI GSEA preranked run (one `<SET>.html` + `<SET>.tsv` per gene set, e.g. `CG-CORE.*`, `ACG.*`).
+  - `complementary_motif_analysis/` — outputs of `run_complementary_motif_analysis.ipynb` (R-based GSEA + leading-edge heatmap + seqlogo); see notebook section above for the full file list.
 - `plots_patients_cohort/`
   - `variant_scores_heatmap.svg`
   - `variant_genomic_positions.svg`
@@ -75,9 +90,11 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
 4. Run `alphagenome_analysis_notebook_genomAD.ipynb`.
 5. Run `motif_enrichment_pipeline.py`.
 6. Run `ISM_motif_annotation.ipynb`.
-7. (Optional) run GSEA preranked using the generated `.rnk` and `.gmt`, then review outputs in `motif_analysis.GseaPreranked.*`.
+7. (Optional) run GSEA preranked using the generated `.rnk` and `.gmt`, then review outputs in `motif_analysis.GseaPreranked.*` and `plots_alphagenome_ISM/gsea_motif_analysis/`.
+8. (Optional) Run `run_complementary_motif_analysis.ipynb` for an in-R GSEA cross-check; outputs land in `plots_alphagenome_ISM/complementary_motif_analysis/`.
 
 ## Environment
 
-- Use the Conda environment defined in `coda/alphagenome-env.yml`.
-- Notebook kernel: `alphagenome-env` (Python 3.11).
+- Python notebooks/script: use the Conda environment defined in `coda/alphagenome-env.yml`. Notebook kernel: `alphagenome-env` (Python 3.11).
+- `motif_enrichment_pipeline.py` additionally requires `biopython` (`from Bio.Seq import Seq`).
+- `run_complementary_motif_analysis.ipynb` runs on a separate R kernel `R (r-motif-gsea-env)` with Bioconductor packages `clusterProfiler`, `enrichplot`, `fgsea`, and CRAN packages `ggplot2`, `ggseqlogo`, `pheatmap`, `gridExtra` (install commands are commented in the first setup cell).

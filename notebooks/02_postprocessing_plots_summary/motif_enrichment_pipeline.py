@@ -10,26 +10,26 @@ Date: 2026-03-29
 import pandas as pd
 from Bio.Seq import Seq
 
-# =====================================================
+# ===============================
 # PARAMETERS
-# =====================================================
+# ===============================
 INPUT_CSV = "plots_alphagenome_ISM/ism_variant_summary.csv"
 
-# genomic sequence defining your tested region
+# genomic sequence defining our tested region
 REFERENCE_SEQ = (
     "TAAACTTGATGTCTAGGCCACTTCCTTTCTCTCGGGACCTACTTTTTCCATGTGTAACAAGGTGGAGAGAAGGGTATTGGACTCACAAAGACACACAACAGTAGTAATTTTATTCTTTCAAACCTTCTGATGAAGTTGTTTCTAGGATTACCGTGGCATA"
-)
+)ß
 region_start = 108570633
 
 OUTPUT_RNK   = "motif_scores.rnk"
 OUTPUT_GMT   = "motif_sets.gmt"
 OUTPUT_FASTA = "motif_sequences.fasta"
-WINDOW       = 7                # size for motif scoring (can be 5–8)
+WINDOW       = 7  # size for motif scoring (can be 5–8)
 SCORE_COLUMN = "Mean Quantile Score"   # use a continuous metric
 
-# =====================================================
+# ===============================
 # HELPER FUNCTION
-# =====================================================
+# ===============================
 def get_context(position, ref, alt, flank=3):
     """
     Extract (2*flank+1)-nt context around a mutation within the reference sequence
@@ -49,9 +49,10 @@ def join_unique_variant_ids(values):
     unique_ids = dict.fromkeys(v for v in values if pd.notna(v))
     return ";".join(str(v) for v in unique_ids)
 
-# =====================================================
-# STEP 1 – LOAD VARIANTS
-# =====================================================
+# ===============================
+# LOAD VARIANTS
+# ===============================
+
 df = pd.read_csv(INPUT_CSV)
 
 # optional: keep all impact levels so ranking covers full spectrum
@@ -70,9 +71,10 @@ df["Context7mer"] = df.apply(
     axis=1,
 )
 
-# =====================================================
-# STEP 2 – COMPUTE & RANK MOTIF SCORES
-# =====================================================
+# ===============================
+# COMPUTE & RANK MOTIF SCORES
+# ===============================
+
 motif_scores = (
     df.groupby("Context7mer")
       .agg(
@@ -91,9 +93,10 @@ motif_scores[["Context7mer", SCORE_COLUMN]].to_csv(
     OUTPUT_RNK, sep="\t", index=False, header=False
 )
 
-# =====================================================
-# STEP 3 – BUILD MOTIF SETS (.gmt)
-# =====================================================
+# ===============================
+# BUILD MOTIF SETS (.gmt)
+# ===============================
+
 def make_motif_sets():
     motifs = motif_scores["Context7mer"].tolist()
     motif_sets = {}
@@ -119,9 +122,10 @@ def make_motif_sets():
 
 make_motif_sets()
 
-# =====================================================
-# STEP 4 – FASTA FOR MEME / ggseqlogo
-# =====================================================
+# ===============================
+# FASTA FOR MEME / ggseqlogo
+# ===============================
+
 with open(OUTPUT_FASTA, "w") as f:
     for _, row in motif_scores.iterrows():
         motif = row["Context7mer"]
