@@ -5,6 +5,13 @@ This folder holds the targeted RNA-seq sample sheets, palette, and (in the
 indexes used to inspect splicing around the **COL4A5 intron 6 hotspot**
 (cryptic / pseudoexon inclusion) on the human reference **hg19 / GRCh37**.
 
+> **BAM files on Zenodo.** The 21 BAMs and their `.bai` indexes are not
+> tracked in git; they are archived on Zenodo:
+> [**10.5281/zenodo.19854065**](https://doi.org/10.5281/zenodo.19854065).
+> Download the archive and place the files in `Targeted_rnaseq/bams/`
+> (keep the original filenames) so the absolute paths in `samples.tsv`
+> resolve before running ggsashimi.
+
 ### Folder layout
 
 ```
