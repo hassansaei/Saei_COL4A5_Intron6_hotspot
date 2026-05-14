@@ -7,6 +7,8 @@ Author: Hassan Saei
 Date: 2026-03-29
 """
 
+import os
+
 import pandas as pd
 from Bio.Seq import Seq
 
@@ -18,14 +20,20 @@ INPUT_CSV = "plots_alphagenome_ISM/ism_variant_summary.csv"
 # genomic sequence defining our tested region
 REFERENCE_SEQ = (
     "TAAACTTGATGTCTAGGCCACTTCCTTTCTCTCGGGACCTACTTTTTCCATGTGTAACAAGGTGGAGAGAAGGGTATTGGACTCACAAAGACACACAACAGTAGTAATTTTATTCTTTCAAACCTTCTGATGAAGTTGTTTCTAGGATTACCGTGGCATA"
-)ß
+)
 region_start = 108570633
 
-OUTPUT_RNK   = "motif_scores.rnk"
-OUTPUT_GMT   = "motif_sets.gmt"
-OUTPUT_FASTA = "motif_sequences.fasta"
-WINDOW       = 7  # size for motif scoring (can be 5–8)
-SCORE_COLUMN = "Mean Quantile Score"   # use a continuous metric
+OUTPUT_DIR = "plots_alphagenome_ISM"
+OUTPUT_TABLE = os.path.join(OUTPUT_DIR, "motif_scores_table.csv")
+OUTPUT_RNK = os.path.join(OUTPUT_DIR, "motif_scores.rnk")
+OUTPUT_GMT = os.path.join(OUTPUT_DIR, "motif_sets.gmt")
+OUTPUT_FASTA = os.path.join(OUTPUT_DIR, "motif_sequences.fasta")
+WINDOW = 7  # size for motif scoring (can be 5–8)
+
+# Per-variant column in ism_variant_summary.csv (cohort-aligned: splice-site usage)
+VARIANT_SCORE_COLUMN = "Splice Site Max Quantile"
+# After groupby(Context7mer), we take the mean of that column per motif:
+AGG_SCORE_COLUMN = "Splice Site Max Quantile"
 
 # ===============================
 # HELPER FUNCTION
@@ -53,7 +61,14 @@ def join_unique_variant_ids(values):
 # LOAD VARIANTS
 # ===============================
 
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 df = pd.read_csv(INPUT_CSV)
+if VARIANT_SCORE_COLUMN not in df.columns:
+    raise KeyError(
+        f"Missing column {VARIANT_SCORE_COLUMN!r} in {INPUT_CSV}. "
+        "Regenerate ism_variant_summary.csv from alphagenome_analysis_notebook_ISM.ipynb."
+    )
 
 # optional: keep all impact levels so ranking covers full spectrum
 # df = df[df["Impact Classification"].isin(["High Impact",
@@ -79,17 +94,17 @@ motif_scores = (
     df.groupby("Context7mer")
       .agg(
           **{
-              SCORE_COLUMN: (SCORE_COLUMN, "mean"),
+              AGG_SCORE_COLUMN: (VARIANT_SCORE_COLUMN, "mean"),
               "Creating Variants": ("Variant ID", join_unique_variant_ids),
           }
       )
-      .sort_values(by=SCORE_COLUMN, ascending=False)
+      .sort_values(by=AGG_SCORE_COLUMN, ascending=False)
       .reset_index()
 )
-motif_scores.to_csv("motif_scores_table.csv", index=False)
+motif_scores.to_csv(OUTPUT_TABLE, index=False)
 
 # create GSEA .rnk file  (motif\tScore)
-motif_scores[["Context7mer", SCORE_COLUMN]].to_csv(
+motif_scores[["Context7mer", AGG_SCORE_COLUMN]].to_csv(
     OUTPUT_RNK, sep="\t", index=False, header=False
 )
 
@@ -132,6 +147,7 @@ with open(OUTPUT_FASTA, "w") as f:
         f.write(f">{motif}\n{motif}\n")
 
 print("✅ Files generated:")
+print(f"  - Motif table   : {OUTPUT_TABLE}")
 print(f"  - Motif ranking : {OUTPUT_RNK}")
 print(f"  - Motif sets    : {OUTPUT_GMT}")
 print(f"  - FASTA         : {OUTPUT_FASTA}")

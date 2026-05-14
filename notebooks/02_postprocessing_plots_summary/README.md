@@ -35,7 +35,7 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
 - `motif_enrichment_pipeline.py`
   - Input: `plots_alphagenome_ISM/ism_variant_summary.csv`
   - Builds a 7-mer (`Context7mer`) variant context using the hard-coded intron-6 `REFERENCE_SEQ` and `region_start = 108570633`; window size is controlled by `WINDOW` (5–8).
-  - Ranks motifs by `Mean Quantile Score` (configurable via `SCORE_COLUMN`).
+  - Ranks each 7-mer by the **mean of per-variant `Splice Site Max Quantile`** among variants that create that context. The exported column is **`Mean Splice Site Max Quantile`** (not “mean mean”: it is one mean, over variants, of splice-site max quantiles). Configure source/label columns in `motif_enrichment_pipeline.py` via `VARIANT_SCORE_COLUMN` and `AGG_SCORE_COLUMN`.
   - Outputs (written next to the script, in the working directory):
     - `motif_scores_table.csv` — now includes a `Creating Variants` column listing the unique `Variant ID`s that produced each motif (preserves motif → variant traceability).
     - `motif_scores.rnk` — two-column GSEA preranked input (`motif`, score).
