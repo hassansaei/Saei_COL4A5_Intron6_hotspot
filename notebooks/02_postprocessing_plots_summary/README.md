@@ -6,9 +6,13 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
 ## Notebooks in this folder
 
 - `alphagenome_analysis_notebook_ISM.ipynb`
-  - Processes ISM per-variant score CSVs.
+  - Processes ISM per-variant score CSVs (COL4A5 **intron 6**, 160 bp).
   - Builds variant-level summary table and heatmaps.
   - Current heatmap logic is configured to plot top variants in `plot_scores_heatmap`.
+- `alphagenome_analysis_notebook_ISM_intron47.ipynb`
+  - Same workflow for COL4A5 **intron 47** (123 bp; `chrX:108683908–108684030`).
+  - Input: `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron47/csv/`
+  - Output: `plots_alphagenome_ISM_intron47/`
 - `alphagenome_analysis_notebook_cohort.ipynb`
   - Processes patient cohort AlphaGenome score outputs.
   - Produces score heatmap, genomic-position plot, and pathogenicity summary CSV.
@@ -47,8 +51,9 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
 
 Expected upstream inputs come from `../01_alphagenome_analysis/`:
 
-- ISM input folder:
-  - `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron6/csv/`
+- ISM input folders:
+  - Intron 6: `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron6/csv/`
+  - Intron 47: `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron47/csv/`
 - Cohort input folder:
   - `../01_alphagenome_analysis/alphagenome_intron6_cohort/csv/`
 - gnomAD input folder:
@@ -85,7 +90,7 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
 ## Recommended run order
 
 1. Run upstream analyses in `../01_alphagenome_analysis/`.
-2. Run `alphagenome_analysis_notebook_ISM.ipynb`.
+2. Run `alphagenome_analysis_notebook_ISM.ipynb` (intron 6) and/or `alphagenome_analysis_notebook_ISM_intron47.ipynb` (intron 47).
 3. Run `alphagenome_analysis_notebook_cohort.ipynb`.
 4. Run `alphagenome_analysis_notebook_genomAD.ipynb`.
 5. Run `motif_enrichment_pipeline.py`.
