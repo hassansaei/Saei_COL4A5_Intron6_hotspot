@@ -1,8 +1,10 @@
-# Recurrent pseudoexon activation in COL4A5 intron 6 defines a therapeutically actionable hotspot
-
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19854065.svg)](https://doi.org/10.5281/zenodo.19854065)
 
+# Recurrent pseudoexon activation in COL4A5 intron 6 defines a therapeutically actionable hotspot
+
 This repository contains scripts and notebooks used to generate figures for the manuscript on deep intronic variation hotspot(s) in `COL4A5` responsible for X-linked Alport syndrome. 
+
+**Authors:** Hassan Saei*, Béatrice Ardin*, Nicolas Kaiser, Mouad Ouahmane, Olivier Gribouval, Vincent Moriniere, Florian Wopperer, Korbinian Riedhammer, Corinne Antignac, Michael Wiesener#, Guillaume Dorval#
 
 The project is organized for reproducibility and clear separation between:
 - AlphaGenome in-silico analyses (variant scoring, ISM saturation mutagenesis)
