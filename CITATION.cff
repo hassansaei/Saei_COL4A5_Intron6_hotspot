@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "Recurrent pseudoexon activation in COL4A5 intron 6 defines a therapeutically actionable hotspot"
+message: "If you use this repository, please cite it and the associated Zenodo data deposit as below."
+type: software
+authors:
+  - family-names: Saei
+    given-names: Hassan
+repository-code: "https://github.com/hassansaei/Saei_COL4A5_Intron6_hotspot"
+license: MIT
+references:
+  - type: dataset
+    title: "Targeted RNA-seq BAM files for COL4A5 intron 6 sashimi analysis"
+    doi: 10.5281/zenodo.19854065
+    url: "https://doi.org/10.5281/zenodo.19854065"

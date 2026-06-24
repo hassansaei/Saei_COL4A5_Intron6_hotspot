@@ -1,5 +1,7 @@
 # Recurrent pseudoexon activation in COL4A5 intron 6 defines a therapeutically actionable hotspot
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19854065.svg)](https://doi.org/10.5281/zenodo.19854065)
+
 This repository contains scripts and notebooks used to generate figures for the manuscript on deep intronic variation hotspot(s) in `COL4A5` responsible for X-linked Alport syndrome. 
 
 The project is organized for reproducibility and clear separation between:
@@ -7,6 +9,14 @@ The project is organized for reproducibility and clear separation between:
 - Downstream postprocessing, motif enrichment, and summary plotting
 - Complementary in-R motif GSEA cross-check
 - Targeted RNA-seq sashimi visualization of the intron 6 hotspot
+
+## Data availability
+
+Targeted RNA-seq BAM files (+ `.bai` indexes) are archived on Zenodo:
+
+**DOI:** [10.5281/zenodo.19854065](https://doi.org/10.5281/zenodo.19854065)
+
+Download the archive and place the files in `Targeted_rnaseq/bams/` (preserving filenames) before reproducing the sashimi figure. See `Targeted_rnaseq/README.md` for sample design and ggsashimi commands.
 
 ## Repository Structure
 
