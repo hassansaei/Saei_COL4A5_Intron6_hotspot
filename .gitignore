@@ -8,6 +8,7 @@
 .ipynb_checkpoints/
 
 # Notebook-generated result folders
+notebooks/01_alphagenome_analysis/alphagenome_ISM_COL4A5/*
 notebooks/01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron6/
 notebooks/01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron47/
 notebooks/01_alphagenome_analysis/alphagenome_intron6_cohort/

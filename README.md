@@ -48,7 +48,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 │   │   ├── alphagenome_intron6_genomAD/               # gnomAD outputs (gitignored)
 │   │   ├── alphagenome_ISM_COL4A5_intron6/            # intron 6 ISM outputs (gitignored)
 │   │   ├── alphagenome_ISM_COL4A5_intron47/           # intron 47 ISM outputs (gitignored)
-│   │   └── alphagenome_ISM_COL4A5/                    # per-intron ISM outputs from COL4A5_ISM/
+│   │   └── alphagenome_ISM_COL4A5/                    # per-intron ISM outputs from COL4A5_ISM/ (gitignored)
 │   └── 02_postprocessing_plots_summary/
 │       ├── README.md
 │       ├── alphagenome_analysis_notebook_ISM.ipynb            # intron 6 ISM summary + heatmaps
@@ -74,7 +74,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
     └── bams2/                                                     # gitignored — cohort 2 BAMs (local only)
 ```
 
-> **Targeted RNA-seq BAM files**: the 21 BAMs (+ `.bai` indexes) referenced by `targeted_rnaseq/samples.tsv` are archived on Zenodo: [10.5281/zenodo.19854065](https://doi.org/10.5281/zenodo.19854065). Download them into `targeted_rnaseq/bams/` (preserving filenames) before reproducing the sashimi figure.
+> **Targeted RNA-seq BAM files**: the 21 BAMs (+ `.bai` indexes) referenced by `targeted_rnaseq/samples.tsv` are archived on Zenodo: [10.5281/zenodo.19854065](https://doi.org/10.5281/zenodo.19854065). Download them into `targeted_rnaseq/bams/` (preserving filenames) before reproducing the sashimi plots.
 
 ## Workflow Overview
 
