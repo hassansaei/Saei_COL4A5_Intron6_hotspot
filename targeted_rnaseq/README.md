@@ -8,14 +8,14 @@ indexes used to inspect splicing around the **COL4A5 intron 6 hotspot**
 > **BAM files on Zenodo.** The 21 BAMs and their `.bai` indexes are not
 > tracked in git; they are archived on Zenodo:
 > [**10.5281/zenodo.19854065**](https://doi.org/10.5281/zenodo.19854065).
-> Download the archive and place the files in `Targeted_rnaseq/bams/`
+> Download the archive and place the files in `targeted_rnaseq/bams/`
 > (keep the original filenames) so the absolute paths in `samples.tsv`
 > resolve before running ggsashimi.
 
 ### Folder layout
 
 ```
-Targeted_rnaseq/
+targeted_rnaseq/
 ├── README.md           # this file
 ├── samples.tsv         # ggsashimi -b input: id<TAB>abs_bam_path<TAB>color_factor  (21 rows, committed)
 ├── palette.tsv         # ggsashimi -P input: one hex per line (4 rows, committed)
@@ -135,11 +135,11 @@ Output: `sashimi_COL4A5_intron6.pdf` (~14" × 53" canvas)
 ```bash
 docker run --rm --platform linux/amd64 -w "$PWD" -v "$PWD":"$PWD" \
   guigolab/ggsashimi \
-  -b "$PWD/Targeted_rnaseq/samples.tsv" \
+  -b "$PWD/targeted_rnaseq/samples.tsv" \
   -c chrX:107811500-107815000 \
   -M 15 \
   -C 3 \
-  -P "$PWD/Targeted_rnaseq/palette.tsv" \
+  -P "$PWD/targeted_rnaseq/palette.tsv" \
   --alpha 0.9 \
   -g "$PWD/annotation/gencode.v19.annotation.gtf.gz" \
   --height 2.5 \
@@ -151,7 +151,7 @@ docker run --rm --platform linux/amd64 -w "$PWD" -v "$PWD":"$PWD" \
 
 Notes:
 - Pass the TSV and GTF paths as **absolute** (`"$PWD/..."`). Inside the
-  container, relative paths like `Targeted_rnaseq/samples.tsv` can fail with
+  container, relative paths like `targeted_rnaseq/samples.tsv` can fail with
   `FileNotFoundError` depending on how Docker resolves the working directory.
 - The BAM paths **inside `samples.tsv`** must also be absolute — ggsashimi
   resolves them relative to the TSV file's directory, not the container CWD.
@@ -192,12 +192,12 @@ Notes:
 
 | Flag | Meaning | Used value |
 |------|---------|------------|
-| `-b` | sample TSV (`id<TAB>bam<TAB>color[<TAB>group]`) | `Targeted_rnaseq/samples.tsv` |
+| `-b` | sample TSV (`id<TAB>bam<TAB>color[<TAB>group]`) | `targeted_rnaseq/samples.tsv` |
 | `-c` | genomic region | `chrX:107811500-107815000` |
 | `-g` | GTF annotation (gzipped OK) | `annotation/gencode.v19.annotation.gtf.gz` (hg19) |
 | `-M` | min reads to draw a junction arc | `15` |
 | `-C` | TSV column (1-based) defining color groups | `3` (hex column — used as a *factor*, not as literal color) |
-| `-P` | palette file: one color per line, line *i* → *i*-th unique level of `-C` column in order of first appearance | `Targeted_rnaseq/palette.tsv` |
+| `-P` | palette file: one color per line, line *i* → *i*-th unique level of `-C` column in order of first appearance | `targeted_rnaseq/palette.tsv` |
 | `-O` | TSV column (1-based) for **overlay** (aggregating samples per track) | not used in the final runs (would require adding a 4th column with condition labels to `samples.tsv`) |
 | `-A` | aggregation function for `-O`: `mean / median / mean_j / median_j` | not used (kept per-replicate tracks) |
 | `--alpha` | coverage transparency (0–1) | `0.9` |
@@ -215,7 +215,7 @@ Notes:
 - The htslib warnings `[W::hts_idx_load3] The index file is older than the data file: …bam.bai` are harmless — the BAM files themselves are unchanged, only file mtimes differ. To silence:
 
   ```bash
-  for b in Targeted_rnaseq/bams/*.bam; do samtools index "$b"; done
+  for b in targeted_rnaseq/bams/*.bam; do samtools index "$b"; done
   ```
 
 - `--platform linux/amd64` is required on Apple Silicon (M-series) Macs because
