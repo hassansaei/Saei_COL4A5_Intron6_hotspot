@@ -1,3 +1,7 @@
+# Secrets / API keys (never commit)
+alphagenome_api_key.txt
+*.key
+
 # macOS
 .DS_Store
 
@@ -38,13 +42,13 @@ targeted_rnaseq/bams2/
 *.bam.bai
 
 # FASTA files
-notebooks/01_alphagenome_analysis/COL4A5_ISM/hg38.fa
-notebooks/01_alphagenome_analysis/COL4A5_ISM/hg38.fa.fai
+notebooks/01_alphagenome_analysis/ISM/hg38.fa
+notebooks/01_alphagenome_analysis/ISM/hg38.fa.fai
 
 # RefSeq table
-notebooks/01_alphagenome_analysis/COL4A5_ISM/ncbiRefSeq.txt
+notebooks/01_alphagenome_analysis/ISM/ncbiRefSeq.txt
 
 # Intron files
-notebooks/01_alphagenome_analysis/COL4A5_ISM/*.bed
-notebooks/01_alphagenome_analysis/COL4A5_ISM/*.tsv
-notebooks/01_alphagenome_analysis/COL4A5_ISM/*.fa
+notebooks/01_alphagenome_analysis/ISM/*.bed
+notebooks/01_alphagenome_analysis/ISM/*.tsv
+notebooks/01_alphagenome_analysis/ISM/*.fa

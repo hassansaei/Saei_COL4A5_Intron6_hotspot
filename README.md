@@ -40,10 +40,10 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 │   │   ├── alphagenome_cohort_analysis.ipynb          # cohort variant scoring
 │   │   ├── alphagenome_genomAD_analysis.ipynb         # gnomAD panel scoring
 │   │   ├── alphagenome_ISM_analysis.ipynb             # ISM on intron 6 hotspot (160 bp)
-│   │   ├── COL4A5_ISM/                                # full-gene, gene-agnostic intron ISM workflow
+│   │   ├── ISM/                                       # full-gene, gene-agnostic intron ISM workflow
 │   │   │   ├── README.md                              # RefSeq/hg38 download + CLI + run order
 │   │   │   ├── extract_introns.py                     # CLI: build intron BED/TSV/FASTA for any RefSeq transcript
-│   │   │   └── alphagenome_ISM_COL4A5_batch.ipynb     # batch VCF ISM on all introns of a gene (COL4A5/COL4A3/COL4A4)
+│   │   │   └── alphagenome_ISM_batch.ipynb           # batch VCF ISM on all introns of a gene (COL4A5/COL4A3/COL4A4)
 │   │   ├── alphagenome_intron6_cohort/                # cohort outputs (gitignored)
 │   │   ├── alphagenome_intron6_genomAD/               # gnomAD outputs (gitignored)
 │   │   ├── alphagenome_ISM_COL4A5_intron6/            # intron 6 ISM outputs (gitignored)
@@ -85,7 +85,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 1. **`notebooks/01_alphagenome_analysis/`** — runs AlphaGenome on the cohort, gnomAD, and ISM variant sets and exports per-variant `csv/` and `png/` artifacts:
    - `alphagenome_cohort_analysis.ipynb` and `alphagenome_genomAD_analysis.ipynb` — patient cohort and gnomAD panels.
    - `alphagenome_ISM_analysis.ipynb` — saturation mutagenesis on the intron 6 hotspot (160 bp).
-   - `COL4A5_ISM/` — gene-agnostic full-gene workflow: download hg38 + UCSC RefSeq (`README.md`), extract all introns of a transcript with the `extract_introns.py` CLI (e.g. `python extract_introns.py NM_033380.3`), then run `alphagenome_ISM_COL4A5_batch.ipynb` for fast batch VCF-based per-intron ISM (defaults to COL4A5; also run for COL4A3/COL4A4).
+   - `ISM/` — gene-agnostic full-gene workflow: download hg38 + UCSC RefSeq (`README.md`), extract all introns of a transcript with the `extract_introns.py` CLI (e.g. `python extract_introns.py NM_033380.3`), then run `alphagenome_ISM_batch.ipynb` for fast batch VCF-based per-intron ISM (defaults to COL4A5; also run for COL4A3/COL4A4).
 2. **`notebooks/02_postprocessing_plots_summary/`** — turns those CSVs into:
    - cohort/gnomAD/ISM summary tables, score heatmaps, and pathogenicity calls (`alphagenome_analysis_notebook_ISM.ipynb`, `alphagenome_analysis_notebook_ISM_intron47.ipynb`, `alphagenome_analysis_notebook_cohort.ipynb`, `alphagenome_analysis_notebook_genomAD.ipynb`);
    - a gene-agnostic all-introns summary with cross-intron hotspot comparison (`alphagenome_analysis_notebook_ISM_all_introns.ipynb`, consuming a `../01_alphagenome_analysis/alphagenome_ISM_<GENE>/` batch run);
@@ -123,7 +123,7 @@ Reproducibility details (inputs, versions, parameters, execution order, and outp
 - `coda/alphagenome-env.yml`, `coda/r-motif-gsea-env.yml`
 - `notebooks/README.md`
 - `notebooks/01_alphagenome_analysis/README.md`
-- `notebooks/01_alphagenome_analysis/COL4A5_ISM/README.md`
+- `notebooks/01_alphagenome_analysis/ISM/README.md`
 - `notebooks/02_postprocessing_plots_summary/README.md`
 - `targeted_rnaseq/README.md` (sample design, hg19 reference, ggsashimi command)
 

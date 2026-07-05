@@ -14,8 +14,8 @@ This folder contains the primary AlphaGenome workflows for the `COL4A5` intron 6
   - Comprehensive saturation mutagenesis (all substitutions across input sequence).
   - Exports per-variant plots and per-variant splice scorer CSV files.
 
-See `COL4A5_ISM/README.md` for the full-gene, gene-agnostic intron ISM workflow
-(`extract_introns.py` CLI + `alphagenome_ISM_COL4A5_batch.ipynb`), which builds a
+See `ISM/README.md` for the full-gene, gene-agnostic intron ISM workflow
+(`extract_introns.py` CLI + `alphagenome_ISM_batch.ipynb`), which builds a
 per-intron VCF of all single-nucleotide substitutions and batch-scores them.
 Configure `GENE_NAME` / `TRANSCRIPT_ID` / `ONTOLOGY_CURIE` in the notebook
 (defaults COL4A5 / NM_033380.3 / kidney; also run for COL4A3 and COL4A4). Outputs
@@ -37,7 +37,7 @@ land in per-gene folders `alphagenome_ISM_<GENE>/`.
   - (summary table is returned in notebook; save to CSV if needed)
 - `alphagenome_ISM_<GENE>/` (e.g. `alphagenome_ISM_COL4A5/`, `alphagenome_ISM_COL4A3/`, `alphagenome_ISM_COL4A4/`)
   - one `intron_*/` subfolder per intron, each with `<intron>_variants.vcf` and `csv/alphagenome_scores_<intron>.csv`
-  - produced by `COL4A5_ISM/alphagenome_ISM_COL4A5_batch.ipynb`
+  - produced by `ISM/alphagenome_ISM_batch.ipynb`
 
 ## Output naming convention
 

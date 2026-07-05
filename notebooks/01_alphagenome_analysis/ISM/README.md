@@ -12,7 +12,7 @@ gene-agnostic — set the transcript ID / gene name and rerun.
     transcript, derives intron coordinates, and writes per-intron
     `BED`/`TSV`/`FASTA` files. Output names embed gene + transcript, e.g.
     `COL4A5_NM_033380.3_introns.{bed,tsv,fa}`.
-- `alphagenome_ISM_COL4A5_batch.ipynb`
+- `alphagenome_ISM_batch.ipynb`
   - Gene-agnostic **batch** ISM notebook. For each intron it builds a VCF of
     every single-nucleotide substitution (`length_bp × 3` rows), scores them in
     parallel with the AlphaGenome splice scorers (`SPLICE_JUNCTIONS`,
@@ -58,11 +58,11 @@ writes the BED/TSV and prints the manual command to run later.
 
 ## Run the ISM scoring
 
-Open `alphagenome_ISM_COL4A5_batch.ipynb`, set the configuration cell (and your
+Open `alphagenome_ISM_batch.ipynb`, set the configuration cell (and your
 AlphaGenome API key), then run all cells:
 
 ```bash
-jupyter execute alphagenome_ISM_COL4A5_batch.ipynb
+jupyter execute alphagenome_ISM_batch.ipynb
 ```
 
 Downstream summaries and cross-intron hotspot comparisons are produced by

@@ -16,7 +16,7 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
 - `alphagenome_analysis_notebook_ISM_all_introns.ipynb`
   - Gene-agnostic postprocessing across **every intron of a gene**, consuming a
     full-gene batch ISM run (`../01_alphagenome_analysis/alphagenome_ISM_<GENE>/`,
-    produced by `COL4A5_ISM/alphagenome_ISM_COL4A5_batch.ipynb`).
+    produced by `ISM/alphagenome_ISM_batch.ipynb`).
   - Config cell: set `GENE_NAME` (default `COL4A5`), `INPUT_ROOT`, `OUTPUT_DIR`,
     and optional `INTRON_FILTER`. Loads either many per-variant CSVs or a single
     aggregated CSV per intron (skips in-progress `.csv.tmp` files).
