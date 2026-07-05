@@ -8,7 +8,7 @@ This repository contains scripts and notebooks used to generate figures for the 
 
 The project is organized for reproducibility and clear separation between:
 - AlphaGenome in-silico analyses (variant scoring, ISM saturation mutagenesis)
-- Full-gene COL4A5 intron extraction and per-intron ISM
+- Full-gene, gene-agnostic intron extraction and per-intron batch ISM (COL4A5, plus paralogs COL4A3/COL4A4)
 - Downstream postprocessing, motif enrichment, and summary plotting
 - Complementary in-R motif GSEA cross-check
 - Targeted RNA-seq sashimi visualization of the intron 6 hotspot
@@ -40,19 +40,22 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 │   │   ├── alphagenome_cohort_analysis.ipynb          # cohort variant scoring
 │   │   ├── alphagenome_genomAD_analysis.ipynb         # gnomAD panel scoring
 │   │   ├── alphagenome_ISM_analysis.ipynb             # ISM on intron 6 hotspot (160 bp)
-│   │   ├── COL4A5_ISM/                                # full-gene intron ISM workflow
-│   │   │   ├── README.md                              # hg38 / RefSeq download + run order
-│   │   │   ├── extract_introns.py                     # build intron BED/TSV/FASTA for NM_033380.3 from hg38
-│   │   │   └── alphagenome_ISM_COL4A5.ipynb           # ISM on all COL4A5 introns
+│   │   ├── COL4A5_ISM/                                # full-gene, gene-agnostic intron ISM workflow
+│   │   │   ├── README.md                              # RefSeq/hg38 download + CLI + run order
+│   │   │   ├── extract_introns.py                     # CLI: build intron BED/TSV/FASTA for any RefSeq transcript
+│   │   │   └── alphagenome_ISM_COL4A5_batch.ipynb     # batch VCF ISM on all introns of a gene (COL4A5/COL4A3/COL4A4)
 │   │   ├── alphagenome_intron6_cohort/                # cohort outputs (gitignored)
 │   │   ├── alphagenome_intron6_genomAD/               # gnomAD outputs (gitignored)
 │   │   ├── alphagenome_ISM_COL4A5_intron6/            # intron 6 ISM outputs (gitignored)
 │   │   ├── alphagenome_ISM_COL4A5_intron47/           # intron 47 ISM outputs (gitignored)
-│   │   └── alphagenome_ISM_COL4A5/                    # per-intron ISM outputs from COL4A5_ISM/ (gitignored)
+│   │   ├── alphagenome_ISM_COL4A5/                    # per-intron ISM outputs for COL4A5 (gitignored)
+│   │   ├── alphagenome_ISM_COL4A3/                    # per-intron ISM outputs for COL4A3 (gitignored)
+│   │   └── alphagenome_ISM_COL4A4/                    # per-intron ISM outputs for COL4A4 (gitignored)
 │   └── 02_postprocessing_plots_summary/
 │       ├── README.md
 │       ├── alphagenome_analysis_notebook_ISM.ipynb            # intron 6 ISM summary + heatmaps
 │       ├── alphagenome_analysis_notebook_ISM_intron47.ipynb   # intron 47 ISM summary + heatmaps
+│       ├── alphagenome_analysis_notebook_ISM_all_introns.ipynb # all-introns ISM summary + cross-intron hotspot comparison
 │       ├── alphagenome_analysis_notebook_cohort.ipynb         # cohort summary + heatmaps
 │       ├── alphagenome_analysis_notebook_genomAD.ipynb        # gnomAD summary + heatmaps
 │       ├── ISM_motif_annotation.ipynb                         # motif-level annotation
@@ -60,6 +63,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 │       ├── run_complementary_motif_analysis.ipynb               # R-based fgsea/clusterProfiler cross-check
 │       ├── plots_alphagenome_ISM/                               # intron 6 postprocessing outputs (gitignored)
 │       ├── plots_alphagenome_ISM_intron47/                      # intron 47 postprocessing outputs (gitignored)
+│       ├── plots_alphagenome_ISM_<GENE>_all_introns/            # all-introns postprocessing outputs, per gene (gitignored)
 │       ├── plots_patients_cohort/                               # cohort postprocessing outputs (gitignored)
 │       └── plots_alphagenome_genomAD/                           # gnomAD postprocessing outputs (gitignored)
 └── targeted_rnaseq/                                             # ggsashimi inputs + figures
@@ -81,9 +85,10 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 1. **`notebooks/01_alphagenome_analysis/`** — runs AlphaGenome on the cohort, gnomAD, and ISM variant sets and exports per-variant `csv/` and `png/` artifacts:
    - `alphagenome_cohort_analysis.ipynb` and `alphagenome_genomAD_analysis.ipynb` — patient cohort and gnomAD panels.
    - `alphagenome_ISM_analysis.ipynb` — saturation mutagenesis on the intron 6 hotspot (160 bp).
-   - `COL4A5_ISM/` — download hg38 + UCSC RefSeq (`README.md`), extract all `NM_033380.3` introns with `extract_introns.py`, then run `alphagenome_ISM_COL4A5.ipynb` for per-intron ISM.
+   - `COL4A5_ISM/` — gene-agnostic full-gene workflow: download hg38 + UCSC RefSeq (`README.md`), extract all introns of a transcript with the `extract_introns.py` CLI (e.g. `python extract_introns.py NM_033380.3`), then run `alphagenome_ISM_COL4A5_batch.ipynb` for fast batch VCF-based per-intron ISM (defaults to COL4A5; also run for COL4A3/COL4A4).
 2. **`notebooks/02_postprocessing_plots_summary/`** — turns those CSVs into:
    - cohort/gnomAD/ISM summary tables, score heatmaps, and pathogenicity calls (`alphagenome_analysis_notebook_ISM.ipynb`, `alphagenome_analysis_notebook_ISM_intron47.ipynb`, `alphagenome_analysis_notebook_cohort.ipynb`, `alphagenome_analysis_notebook_genomAD.ipynb`);
+   - a gene-agnostic all-introns summary with cross-intron hotspot comparison (`alphagenome_analysis_notebook_ISM_all_introns.ipynb`, consuming a `../01_alphagenome_analysis/alphagenome_ISM_<GENE>/` batch run);
    - motif-level inputs for GSEA (`motif_scores.rnk`, `motif_sets.gmt`, `motif_sequences.fasta`) via `motif_enrichment_pipeline.py`, with motif → variant traceability in `motif_scores_table.csv`;
    - an in-R GSEA cross-check via `run_complementary_motif_analysis.ipynb` (clusterProfiler/fgsea + enrichplot/ggseqlogo/pheatmap), output to `plots_alphagenome_ISM/complementary_motif_analysis/`.
 3. **`targeted_rnaseq/`** — sample sheets, palettes, and sashimi figures for two RNA-seq cohorts (`samples.tsv` / `palette.tsv` and `samples2.tsv` / `palette2.tsv`). BAMs are gitignored due to size; cohort 1 BAMs are on Zenodo (see below).

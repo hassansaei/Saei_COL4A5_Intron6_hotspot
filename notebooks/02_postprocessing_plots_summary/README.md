@@ -13,6 +13,23 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
   - Same workflow for COL4A5 **intron 47** (123 bp; `chrX:108683908–108684030`).
   - Input: `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron47/csv/`
   - Output: `plots_alphagenome_ISM_intron47/`
+- `alphagenome_analysis_notebook_ISM_all_introns.ipynb`
+  - Gene-agnostic postprocessing across **every intron of a gene**, consuming a
+    full-gene batch ISM run (`../01_alphagenome_analysis/alphagenome_ISM_<GENE>/`,
+    produced by `COL4A5_ISM/alphagenome_ISM_COL4A5_batch.ipynb`).
+  - Config cell: set `GENE_NAME` (default `COL4A5`), `INPUT_ROOT`, `OUTPUT_DIR`,
+    and optional `INTRON_FILTER`. Loads either many per-variant CSVs or a single
+    aggregated CSV per intron (skips in-progress `.csv.tmp` files).
+  - Applies the same pathogenicity cutoffs and spatial hotspot tests as the
+    intron-6 workflow to each `intron_*` folder, then builds a cohort-level view
+    comparing hotspot signal across introns: per-intron H/M burden (full and
+    splice-adjacent-trimmed interior), deep-intronic hotspot **concentration**,
+    and **focused ISM heatmaps** for significant (BH q < FDR) hotspot regions.
+  - Input: `../01_alphagenome_analysis/alphagenome_ISM_<GENE>/` (per-intron folders).
+  - Output: `plots_alphagenome_ISM_<GENE>_all_introns/` (per-intron subfolders +
+    `cohort_intron_summary.csv`, `all_introns_hotspot_intervals.csv`,
+    `cohort_overview_HM_burden*.png/svg`, `cohort_hotspot_concentration.png/svg`,
+    and per-intron `hotspot_heatmaps/`).
 - `alphagenome_analysis_notebook_cohort.ipynb`
   - Processes patient cohort AlphaGenome score outputs.
   - Produces score heatmap, genomic-position plot, and pathogenicity summary CSV.
@@ -54,6 +71,7 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
 - ISM input folders:
   - Intron 6: `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron6/csv/`
   - Intron 47: `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron47/csv/`
+  - All introns (full-gene batch run): `../01_alphagenome_analysis/alphagenome_ISM_<GENE>/` (per-intron `intron_*/csv/` folders)
 - Cohort input folder:
   - `../01_alphagenome_analysis/alphagenome_intron6_cohort/csv/`
 - gnomAD input folder:
@@ -81,6 +99,13 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
   - `variant_scores_heatmap.svg`
   - `variant_genomic_positions.svg`
   - `variant_pathogenicity_summary.csv`
+- `plots_alphagenome_ISM_<GENE>_all_introns/` (e.g. `plots_alphagenome_ISM_COL4A5_all_introns/`)
+  - `cohort_intron_summary.csv`, `all_introns_hotspot_intervals.csv`
+  - `cohort_overview_HM_burden.png/svg`, `cohort_overview_HM_burden_interior.png/svg`
+  - `cohort_hotspot_concentration.png/svg`
+  - one `intron_*/` subfolder per intron with per-intron heatmaps, hotspot
+    tables (`ism_variant_summary.csv`, `spatial_hotspots_HM_variants.csv`), and
+    focused `hotspot_heatmaps/`
 
 ## Motif enrichment output
 
@@ -90,7 +115,7 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
 ## Recommended run order
 
 1. Run upstream analyses in `../01_alphagenome_analysis/`.
-2. Run `alphagenome_analysis_notebook_ISM.ipynb` (intron 6) and/or `alphagenome_analysis_notebook_ISM_intron47.ipynb` (intron 47).
+2. Run `alphagenome_analysis_notebook_ISM.ipynb` (intron 6) and/or `alphagenome_analysis_notebook_ISM_intron47.ipynb` (intron 47). For a full-gene batch run, run `alphagenome_analysis_notebook_ISM_all_introns.ipynb` instead to postprocess every intron and build the cross-intron hotspot comparison.
 3. Run `alphagenome_analysis_notebook_cohort.ipynb`.
 4. Run `alphagenome_analysis_notebook_genomAD.ipynb`.
 5. Run `motif_enrichment_pipeline.py`.
