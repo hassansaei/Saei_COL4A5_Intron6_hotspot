@@ -59,11 +59,16 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 │       ├── alphagenome_analysis_notebook_cohort.ipynb         # cohort summary + heatmaps
 │       ├── alphagenome_analysis_notebook_genomAD.ipynb        # gnomAD summary + heatmaps
 │       ├── ISM_motif_annotation.ipynb                         # motif-level annotation
-│       ├── motif_enrichment_pipeline.py                       # builds .rnk / .gmt / FASTA for GSEA
+│       ├── motif_enrichment_pipeline.py                       # builds .rnk / .gmt / FASTA for GSEA (per hotspot intron)
+│       ├── plot_gsea_cohort_summary.py                        # cohort GSEA heatmap across hotspot introns
+│       ├── plot_hotspot_motif_disruptions.py                  # strict ISS/ESE motif-disruption counts per hotspot
 │       ├── run_complementary_motif_analysis.ipynb               # R-based fgsea/clusterProfiler cross-check
 │       ├── plots_alphagenome_ISM/                               # intron 6 postprocessing outputs (gitignored)
+│       ├── plots_alphagenome_ISM_Intron<N>/                     # per-hotspot-intron motif/GSEA outputs (gitignored)
 │       ├── plots_alphagenome_ISM_intron47/                      # intron 47 postprocessing outputs (gitignored)
 │       ├── plots_alphagenome_ISM_<GENE>_all_introns/            # all-introns postprocessing outputs, per gene (gitignored)
+│       ├── motif_enrichment_cohort_summary/                     # cohort GSEA summary plots (gitignored)
+│       ├── motif_disruption_cohort_summary/                     # cohort motif-disruption plots (gitignored)
 │       ├── plots_patients_cohort/                               # cohort postprocessing outputs (gitignored)
 │       └── plots_alphagenome_genomAD/                           # gnomAD postprocessing outputs (gitignored)
 └── targeted_rnaseq/                                             # ggsashimi inputs + figures
@@ -88,9 +93,10 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
    - `ISM/` — gene-agnostic full-gene workflow: download hg38 + UCSC RefSeq (`README.md`), extract all introns of a transcript with the `extract_introns.py` CLI (e.g. `python extract_introns.py NM_033380.3`), then run `alphagenome_ISM_batch.ipynb` for fast batch VCF-based per-intron ISM (defaults to COL4A5; also run for COL4A3/COL4A4).
 2. **`notebooks/02_postprocessing_plots_summary/`** — turns those CSVs into:
    - cohort/gnomAD/ISM summary tables, score heatmaps, and pathogenicity calls (`alphagenome_analysis_notebook_ISM.ipynb`, `alphagenome_analysis_notebook_ISM_intron47.ipynb`, `alphagenome_analysis_notebook_cohort.ipynb`, `alphagenome_analysis_notebook_genomAD.ipynb`);
-   - a gene-agnostic all-introns summary with cross-intron hotspot comparison (`alphagenome_analysis_notebook_ISM_all_introns.ipynb`, consuming a `../01_alphagenome_analysis/alphagenome_ISM_<GENE>/` batch run);
-   - motif-level inputs for GSEA (`motif_scores.rnk`, `motif_sets.gmt`, `motif_sequences.fasta`) via `motif_enrichment_pipeline.py`, with motif → variant traceability in `motif_scores_table.csv`;
-   - an in-R GSEA cross-check via `run_complementary_motif_analysis.ipynb` (clusterProfiler/fgsea + enrichplot/ggseqlogo/pheatmap), output to `plots_alphagenome_ISM/complementary_motif_analysis/`.
+   - a gene-agnostic all-introns summary with cross-intron hotspot comparison (`alphagenome_analysis_notebook_ISM_all_introns.ipynb`, consuming a `../01_alphagenome_analysis/alphagenome_ISM_<GENE>/` batch run); hotspot **concentration** uses one representative interior hotspot per intron (`CONCENTRATION_MODE = 'top_hotspot'`);
+   - per-hotspot-intron motif inputs for GSEA (`motif_scores.rnk`, `motif_sets.gmt`, `motif_sequences.fasta`) via `motif_enrichment_pipeline.py` (hotspot introns 1, 4, 6, 30, 44, 49), with motif → variant traceability in `motif_scores_table.csv`;
+   - an in-R GSEA cross-check per hotspot intron via `run_complementary_motif_analysis.ipynb` (clusterProfiler/fgsea + enrichplot/ggseqlogo/pheatmap), output to `plots_alphagenome_ISM_Intron<N>/complementary_motif_analysis/`;
+   - cohort-level summary figures via `plot_gsea_cohort_summary.py` (GSEA NES heatmap) and `plot_hotspot_motif_disruptions.py` (strict ISS/ESE motif-disruption counts).
 3. **`targeted_rnaseq/`** — sample sheets, palettes, and sashimi figures for two RNA-seq cohorts (`samples.tsv` / `palette.tsv` and `samples2.tsv` / `palette2.tsv`). BAMs are gitignored due to size; cohort 1 BAMs are on Zenodo (see below).
 
 ## Conda Environments and JupyterLab
