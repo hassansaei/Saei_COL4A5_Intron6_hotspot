@@ -9,6 +9,8 @@ A variant counts as disrupting a motif only when:
   2. The mutant 7-mer no longer matches that same rule (strict loss of motif).
 
 Outputs: motif_disruption_cohort_summary/
+  including hm_ref_7mer_motifs.fasta and hm_mut_7mer_motifs.fasta
+  (headers: chrX:pos:REF>ALT; all High/Moderate variants across hotspots).
 """
 
 from __future__ import annotations
@@ -414,6 +416,30 @@ def plot_fraction_known(class_summary: pd.DataFrame, path: Path) -> None:
     plt.close(fig)
 
 
+def write_motif_fastas(df: pd.DataFrame, out_dir: Path) -> None:
+    """Write ref and mutant 7-mer FASTAs for all H/M variants (all hotspots)."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    ref_path = out_dir / "hm_ref_7mer_motifs.fasta"
+    mut_path = out_dir / "hm_mut_7mer_motifs.fasta"
+
+    with ref_path.open("w") as ref_fh, mut_path.open("w") as mut_fh:
+        for _, row in df.sort_values(["intron", "Position", "Alt"]).iterrows():
+            vid = str(row["Variant ID"])
+            ref_fh.write(f">{vid}\n{row['Reference7mer']}\n")
+            mut_fh.write(f">{vid}\n{row['Context7mer']}\n")
+
+    for intron, sub in df.groupby("intron"):
+        intron_dir = out_dir / f"intron_{intron}"
+        intron_dir.mkdir(parents=True, exist_ok=True)
+        with (intron_dir / "hm_ref_7mer_motifs.fasta").open("w") as ref_fh, (
+            intron_dir / "hm_mut_7mer_motifs.fasta"
+        ).open("w") as mut_fh:
+            for _, row in sub.sort_values(["Position", "Alt"]).iterrows():
+                vid = str(row["Variant ID"])
+                ref_fh.write(f">{vid}\n{row['Reference7mer']}\n")
+                mut_fh.write(f">{vid}\n{row['Context7mer']}\n")
+
+
 def write_audit_notes(df: pd.DataFrame, path: Path) -> None:
     lenient = (df["Regulatory_Class"] != "Unknown").sum()
     strict = df["motif_disrupted"].sum()
@@ -452,6 +478,7 @@ def process(introns: list[int]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     df = build_variant_table(introns)
     df.to_csv(OUTPUT_DIR / "hm_variant_motif_disruptions.csv", index=False)
+    write_motif_fastas(df, OUTPUT_DIR)
 
     class_summary = summarize_by_intron(df)
     factor_summary = summarize_by_factor(df)
@@ -467,7 +494,12 @@ def process(introns: list[int]) -> None:
     plot_by_impact(impact_summary, OUTPUT_DIR / "motif_disruption_ISS_by_impact.png")
     plot_fraction_known(class_summary, OUTPUT_DIR / "motif_disruption_fraction_known.png")
 
-    print(f"Wrote outputs to {OUTPUT_DIR}\n")
+    print(f"Wrote outputs to {OUTPUT_DIR}")
+    print(
+        f"FASTA: {OUTPUT_DIR / 'hm_ref_7mer_motifs.fasta'} "
+        f"and {OUTPUT_DIR / 'hm_mut_7mer_motifs.fasta'} "
+        f"({len(df)} H/M variants)\n"
+    )
     print("STRICT disruptions per hotspot (ISS / ESE / ISE-ISS / any):")
     for intron in sorted(introns):
         sub = class_summary[class_summary["intron"] == intron]

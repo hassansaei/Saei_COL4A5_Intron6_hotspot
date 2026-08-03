@@ -117,8 +117,15 @@ The workflow spans:
   - A variant counts as disrupting a motif only when the wild-type 7-mer matches a
     known rule **and** the mutant 7-mer no longer matches that same rule.
   - Hotspot reference windows are defined in `INTRON_CONFIGS` for introns 1, 4, 6, 30, 44, 49.
+  - Also writes FASTA of reference and mutant 7-mer contexts for **all** High/Moderate
+    variants (not only strict disruptions). Headers use `Variant ID`
+    (e.g. `>chrX:108570691:A>G`); the following line is the 7-mer sequence.
   - Outputs under `motif_disruption_cohort_summary/`:
     - `hm_variant_motif_disruptions.csv` — per-variant disruption table
+    - `hm_ref_7mer_motifs.fasta` — wild-type 7-mers for all H/M variants (all hotspots)
+    - `hm_mut_7mer_motifs.fasta` — mutant 7-mers for all H/M variants (all hotspots)
+    - `intron_<N>/hm_ref_7mer_motifs.fasta`, `intron_<N>/hm_mut_7mer_motifs.fasta` —
+      same FASTAs split per hotspot intron
     - `motif_disruption_by_class.csv`, `motif_disruption_by_factor.csv`, `motif_disruption_by_impact.csv`
     - `motif_disruption_audit.txt` — strict vs lenient counts and caveats
     - `motif_disruption_by_class.png`, `motif_disruption_ISS_vs_other.png`,
@@ -166,6 +173,9 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
   - `gsea_significant_motifs_cohort.png`, `gsea_significant_motifs_cohort.csv`
 - `motif_disruption_cohort_summary/`
   - Per-variant and summary CSVs plus cohort disruption bar plots and heatmaps (see script section).
+  - `hm_ref_7mer_motifs.fasta` / `hm_mut_7mer_motifs.fasta` — ref and mutant 7-mers
+    for all High/Moderate variants across hotspots (`>chrX:pos:REF>ALT` headers).
+  - `intron_<N>/` — per-hotspot copies of the same FASTAs.
 - `plots_patients_cohort/`
   - `variant_scores_heatmap.svg`
   - `variant_genomic_positions.svg`
@@ -192,7 +202,8 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
    - Edit and run `motif_enrichment_pipeline.py` (set `INPUT_CSV`, `REFERENCE_SEQ`, `region_start`, `OUTPUT_DIR`).
    - Run `run_complementary_motif_analysis.ipynb` with matching `input_dir` / `output_dir`.
 6. Run `plot_gsea_cohort_summary.py` to build the cohort GSEA heatmap.
-7. Run `plot_hotspot_motif_disruptions.py` for strict ISS/ESE disruption counts across hotspots.
+7. Run `plot_hotspot_motif_disruptions.py` for strict ISS/ESE disruption counts and
+   H/M ref/mutant 7-mer FASTAs across hotspots.
 8. (Optional) Run `ISM_motif_annotation.ipynb` on a per-intron `motif_scores_table.csv`.
 9. (Optional) run GSEA preranked using the generated `.rnk` and `.gmt`, then review outputs in `motif_analysis.GseaPreranked.*`.
 
