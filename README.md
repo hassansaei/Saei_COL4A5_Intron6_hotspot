@@ -2,7 +2,7 @@
 
 # Mapping deep intronic mutational hotspots by in silico mutagenesis enables single antisense oligonucleotide correction of multiple variants
 
-**Authors:** Hassan Saei, Béatrice Ardin, Nicolas Kaiser, Mouad Ouahmane, Olivier Gribouval, Vincent Moriniere, Florian Wopperer, Korbinian Riedhammer, Corinne Antignac, Michael Wiesener, Guillaume Dorval
+**Authors:** Hassan Saei, Béatrice Ardin, Nicolas Kaiser, Mouad Ouahmane, Olivier Gribouval, Vincent Moriniere, Florian J. Wopperer, Korbinian M. Riedhammer, Daniel P. Gale, Omid Sadeghi-Alavijeh, Claire Goursaud, Olivier Grunewald, Chloe Proposer, Louis Lebreton, Marion Rabant, Carsten Bergmann, Corinne Antignac, Michael S. Wiesener, Guillaume Dorval
 
 This repository contains scripts and notebooks used to generate figures for the manuscript on deep intronic variation hotspot(s) in `COL4A5` responsible for X-linked Alport syndrome. 
 
@@ -17,14 +17,24 @@ The project is organized for reproducibility and clear separation between:
 
 | Term | Meaning in this repository |
 |------|----------------------------|
-| **AlphaGenome** | Deep-learning model for predicting variant effects on splicing and related molecular phenotypes; used here via the AlphaGenome API to score cohort, gnomAD, and ISM variants. See [AlphaGenome docs](https://www.alphagenomedocs.com/). |
+| **AlphaGenome** | Deep-learning model for predicting variant effects on splicing and related molecular phenotypes; used here via the AlphaGenome API to score cohort, gnomAD, and ISM variants. See [References](#references) and [AlphaGenome docs](https://www.alphagenomedocs.com/). |
 | **ISM** | In silico mutagenesis: every single-nucleotide substitution in a region or intron is scored in silico (saturation mutagenesis). |
-| **MSEA** | Motif set enrichment analysis: preranked enrichment of 7-mer motif sets built from ISM splice-impact scores (`.rnk` + `.gmt` inputs). Implemented with GSEA-style preranked methods (`fgsea` / clusterProfiler). |
+| **MSEA** | Motif set enrichment analysis: preranked enrichment of 7-mer motif sets built from ISM splice-impact scores (`.rnk` + `.gmt` inputs). Implemented with GSEA-style preranked methods (`fgsea` / clusterProfiler). See [References](#references). |
 | **ISS / ESE** | Intronic splicing silencer / exonic splicing enhancer: cis-regulatory motifs whose disruption can alter splicing. |
 | **BH** | Benjamini–Hochberg multiple-testing correction applied to sliding-window hotspot tests within each intron. |
 | **FDR** | False discovery rate; significance threshold for hotspot windows (default 0.05). |
 | **NES** | Normalized enrichment score from MSEA output (direction and magnitude of motif-set enrichment). |
 | **H/M** | High or Moderate impact ISM variants (splice-site max quantile ≥ 0.999 or ≥ 0.99). |
+
+## References
+
+Methods and software cited in this repository:
+
+- **AlphaGenome** (variant scoring and ISM): Avsec, Ž., Latysheva, N., Cheng, J. et al. Advancing regulatory variant effect prediction with AlphaGenome. *Nature* **649**, 1206–1218 (2026). https://doi.org/10.1038/s41586-025-10014-0  
+  API and Python SDK: https://www.alphagenomedocs.com/
+
+- **GSEA** (gene set enrichment analysis; preranked enrichment used for MSEA): Subramanian, A., Tamayo, P., Mootha, V.K. et al. Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles. *Proc. Natl Acad Sci. USA* **102**, 15545–15550 (2005). https://doi.org/10.1073/pnas.0506580102  
+  In this repo, preranked MSEA runs use `fgsea` (Korotkevich, G. et al., *bioRxiv* 2019, https://doi.org/10.1101/060012) and `clusterProfiler` (Wu, T. et al., *Innovation* **2**, 100141, 2021, https://doi.org/10.1016/j.xinn.2021.100141) via `run_complementary_motif_analysis.ipynb`.
 
 ## Data availability
 Targeted RNA-seq BAM files (+ `.bai` indexes) are archived on Zenodo:
