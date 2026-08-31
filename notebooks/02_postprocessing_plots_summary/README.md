@@ -4,7 +4,7 @@ This folder contains downstream postprocessing notebooks and scripts for the `CO
 It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into summary tables, heatmaps, motif-analysis inputs, and cohort-level figures.
 
 The workflow spans:
-- **Single-window ISM** (intron 6 hotspot, 160 bp; intron 47 control)
+- **Single-window ISM** (intron 6 hotspot, 160 nt; intron 47 control)
 - **Full-gene batch ISM** across all COL4A5 introns, with cross-intron hotspot comparison
 - **Per-hotspot-intron MSEA** (motif set enrichment analysis; introns 1, 4, 6, 30, 44, 49) and cohort summaries
 
@@ -13,12 +13,12 @@ Term definitions (AlphaGenome, ISM, MSEA, ISS/ESE, BH, FDR, NES, H/M): see the [
 ## Notebooks in this folder
 
 - `alphagenome_analysis_notebook_ISM.ipynb`
-  - Processes ISM per-variant score CSVs (COL4A5 **intron 6**, 160 bp).
+  - Processes ISM per-variant score CSVs (COL4A5 **intron 6**, 160 nt).
   - Builds variant-level summary table and heatmaps.
   - Current heatmap logic is configured to plot top variants in `plot_scores_heatmap`.
-  - Output: `plots_alphagenome_ISM/`
+  - Output: `plots_alphagenome_ISM/` (legacy single-window path; motif/MSEA for intron 6 uses `plots_alphagenome_ISM_Intron6/`)
 - `alphagenome_analysis_notebook_ISM_intron47.ipynb`
-  - Same workflow for COL4A5 **intron 47** (123 bp; `chrX:108683908–108684030`).
+  - Same workflow for COL4A5 **intron 47** (123 nt; `chrX:108683908–108684030`).
   - Input: `../01_alphagenome_analysis/alphagenome_ISM_COL4A5_intron47/csv/`
   - Output: `plots_alphagenome_ISM_intron47/`
 - `alphagenome_analysis_notebook_ISM_all_introns.ipynb`
@@ -78,8 +78,8 @@ Term definitions (AlphaGenome, ISM, MSEA, ISS/ESE, BH, FDR, NES, H/M): see the [
     `OUTPUT_DIR`. Comment blocks document all six hotspot introns (1, 4, 6, 30, 44, 49)
     with genomic coordinates and reference sequences.
   - Input: `ism_variant_summary.csv` for the chosen intron (from
-    `plots_alphagenome_ISM_COL4A5_all_introns/intron_<N>/` or
-    `plots_alphagenome_ISM_Intron6/` for intron 6).
+    `plots_alphagenome_ISM_COL4A5_all_introns/intron_<N>/`; for intron 6 motif/MSEA,
+    prefer the all-introns table or the dedicated `plots_alphagenome_ISM_Intron6/` copy).
   - Builds a 7-mer (`Context7mer`) variant context using the hard-coded `REFERENCE_SEQ`
     and `region_start`; window size is controlled by `WINDOW` (5–8).
   - Ranks each 7-mer by the **mean of per-variant `Splice Site Max Quantile`**
@@ -154,15 +154,20 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
 
 ## Output folders and current artifacts
 
+Output folder naming:
+- Hotspot introns (1, 4, 6, 30, 44, 49): `plots_alphagenome_ISM_Intron<N>/` (capital `Intron`).
+- Control intron 47: `plots_alphagenome_ISM_intron47/` (lowercase; separate control workflow).
+- Legacy intron 6 single-window postprocessing: `plots_alphagenome_ISM/`.
+
 - `plots_alphagenome_ISM/`
-  - Intron 6 postprocessing (legacy path from `alphagenome_analysis_notebook_ISM.ipynb`):
-    `ism_variant_summary.csv`, heatmaps, and motif files when run for intron 6 only.
+  - Legacy intron 6 postprocessing from `alphagenome_analysis_notebook_ISM.ipynb`:
+    `ism_variant_summary.csv`, heatmaps, and motif files for the 160 nt single-window run.
 - `plots_alphagenome_ISM_Intron<N>/` (hotspot introns 1, 4, 6, 30, 44, 49)
   - Per-intron motif pipeline outputs from `motif_enrichment_pipeline.py`:
     `motif_scores_table.csv`, `motif_scores.rnk`, `motif_sets.gmt`, `motif_sequences.fasta`
   - `complementary_motif_analysis/` — outputs of `run_complementary_motif_analysis.ipynb`
     (`gsea_results_r.csv`, `gsea_significant_sets_r.csv`, enrichment curves, etc.)
-  - Intron 6 also has a dedicated copy at `plots_alphagenome_ISM_Intron6/` (used by cohort scripts).
+  - Intron 6 cohort scripts read and write `plots_alphagenome_ISM_Intron6/` (not the legacy `plots_alphagenome_ISM/` folder).
 - `plots_alphagenome_ISM_<GENE>_all_introns/` (e.g. `plots_alphagenome_ISM_COL4A5_all_introns/`)
   - `cohort_intron_summary.csv`, `all_introns_hotspot_intervals.csv`
   - `cohort_overview_HM_burden.png/svg`, `cohort_overview_HM_burden_interior.png/svg`

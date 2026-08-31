@@ -45,7 +45,7 @@ This directory contains all analysis notebooks used for manuscript figures, spli
 ### Outputs
 
 - Primary AlphaGenome output location: `01_alphagenome_analysis/alphagenome_intron6_cohort/`, `alphagenome_intron6_genomAD/`, `alphagenome_ISM_COL4A5_intron6/`, `alphagenome_ISM_COL4A5_intron47/`, and per-gene `alphagenome_ISM_<GENE>/` (all gitignored)
-- Processed table output location: `02_postprocessing_plots_summary/plots_*/` (e.g. `plots_alphagenome_ISM/`, `plots_alphagenome_ISM_<GENE>_all_introns/`, gitignored)
+- Processed table output location: `02_postprocessing_plots_summary/plots_*/` (e.g. legacy intron 6 `plots_alphagenome_ISM/`, hotspot motif/MSEA `plots_alphagenome_ISM_Intron6/`, all-introns `plots_alphagenome_ISM_<GENE>_all_introns/`, gitignored)
 - Figure output location: the same `plots_*/` folders (PNG/SVG)
 
 ### Notebook Run Order

@@ -62,7 +62,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 │   │   ├── README.md
 │   │   ├── alphagenome_cohort_analysis.ipynb          # cohort variant scoring
 │   │   ├── alphagenome_genomAD_analysis.ipynb         # gnomAD panel scoring
-│   │   ├── alphagenome_ISM_analysis.ipynb             # ISM on intron 6 hotspot (160 bp)
+│   │   ├── alphagenome_ISM_analysis.ipynb             # ISM on intron 6 hotspot (160 nt)
 │   │   ├── ISM/                                       # full-gene, gene-agnostic intron ISM workflow
 │   │   │   ├── README.md                              # RefSeq/hg38 download + CLI + run order
 │   │   │   ├── extract_introns.py                     # CLI: build intron BED/TSV/FASTA for any RefSeq transcript
@@ -86,8 +86,8 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 │       ├── plot_gsea_cohort_summary.py                        # cohort MSEA NES heatmap across hotspot introns
 │       ├── plot_hotspot_motif_disruptions.py                  # strict ISS/ESE motif-disruption counts per hotspot
 │       ├── run_complementary_motif_analysis.ipynb               # R-based fgsea/clusterProfiler cross-check
-│       ├── plots_alphagenome_ISM/                               # intron 6 postprocessing outputs (gitignored)
-│       ├── plots_alphagenome_ISM_Intron<N>/                     # per-hotspot-intron motif/MSEA outputs (gitignored)
+│       ├── plots_alphagenome_ISM/                               # legacy intron 6 single-window postprocessing (gitignored)
+│       ├── plots_alphagenome_ISM_Intron<N>/                     # per-hotspot-intron motif/MSEA outputs (Intron6, etc.; gitignored)
 │       ├── plots_alphagenome_ISM_intron47/                      # intron 47 postprocessing outputs (gitignored)
 │       ├── plots_alphagenome_ISM_<GENE>_all_introns/            # all-introns postprocessing outputs, per gene (gitignored)
 │       ├── motif_enrichment_cohort_summary/                     # cohort MSEA summary plots (gitignored)
@@ -112,7 +112,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 
 1. **`notebooks/01_alphagenome_analysis/`** — runs AlphaGenome on the cohort, gnomAD, and ISM variant sets and exports per-variant `csv/` and `png/` artifacts:
    - `alphagenome_cohort_analysis.ipynb` and `alphagenome_genomAD_analysis.ipynb` — patient cohort and gnomAD panels.
-   - `alphagenome_ISM_analysis.ipynb` — saturation mutagenesis on the intron 6 hotspot (160 bp).
+   - `alphagenome_ISM_analysis.ipynb` — saturation mutagenesis on the intron 6 hotspot (160 nt).
    - `ISM/` — gene-agnostic full-gene workflow: download hg38 + UCSC RefSeq (`README.md`), extract all introns of a transcript with the `extract_introns.py` CLI (e.g. `python extract_introns.py NM_033380.3`), then run `alphagenome_ISM_batch.ipynb` for fast batch VCF-based per-intron ISM (defaults to COL4A5; also run for COL4A3/COL4A4).
 2. **`notebooks/02_postprocessing_plots_summary/`** — turns those CSVs into:
    - cohort/gnomAD/ISM summary tables, score heatmaps, and pathogenicity calls (`alphagenome_analysis_notebook_ISM.ipynb`, `alphagenome_analysis_notebook_ISM_intron47.ipynb`, `alphagenome_analysis_notebook_cohort.ipynb`, `alphagenome_analysis_notebook_genomAD.ipynb`);
