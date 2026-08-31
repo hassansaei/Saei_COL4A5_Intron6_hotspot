@@ -1,7 +1,7 @@
 # Conda Environments
 
 This folder contains the reproducible Conda environment files used across
-the project. Two separate environments are maintained so the Python
+the project. We maintain two separate environments so the Python
 AlphaGenome stack and the R motif-MSEA stack stay isolated.
 
 Term definitions (including **MSEA**, motif set enrichment analysis): see the
@@ -20,11 +20,10 @@ Term definitions (including **MSEA**, motif set enrichment analysis): see the
   Provides `r-base`, `r-irkernel`, `r-biocmanager`, `r-ggplot2`,
   `r-pheatmap`, `r-ggseqlogo`, `r-gdtools`, plus build toolchain
   (`c-/cxx-/fortran-compiler`, `make`, `pkg-config`) needed to compile
-  Bioconductor packages installed at first run (`clusterProfiler`,
-  `enrichplot`, `fgsea`). Notebook kernel: `R (r-motif-gsea-env)`.
+  Bioconductor packages (`clusterProfiler`, `enrichplot`, `fgsea`) at first run.
+  Notebook kernel: `R (r-motif-gsea-env)`.
 
-> **Where each notebook expects its kernel** is documented in
-> `notebooks/02_postprocessing_plots_summary/README.md`.
+> See `notebooks/02_postprocessing_plots_summary/README.md` for which kernel each notebook expects.
 
 ---
 
@@ -65,8 +64,8 @@ python -c "import alphagenome, pandas, numpy, matplotlib, tqdm; print('alphageno
 ```
 
 `motif_enrichment_pipeline.py` additionally requires `biopython`
-(`from Bio.Seq import Seq`); install via
-`pip install biopython` inside the env if it is not already present.
+(`from Bio.Seq import Seq`); install it with
+`pip install biopython` inside the env if missing.
 
 ### 6) Update / remove
 

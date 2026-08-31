@@ -6,7 +6,7 @@
 
 This repository contains scripts and notebooks used to generate figures for the manuscript on deep intronic variation hotspot(s) in `COL4A5` responsible for X-linked Alport syndrome. 
 
-The project is organized for reproducibility and clear separation between:
+We organize the project for reproducibility, with separate stages for:
 - AlphaGenome in-silico analyses (variant scoring, ISM saturation mutagenesis)
 - Full-gene, gene-agnostic intron extraction and per-intron batch ISM (COL4A5, plus paralogs COL4A3/COL4A4)
 - Downstream postprocessing, motif enrichment, and summary plotting
@@ -18,10 +18,10 @@ The project is organized for reproducibility and clear separation between:
 | Term | Meaning in this repository |
 |------|----------------------------|
 | **AlphaGenome** | Deep-learning model for predicting variant effects on splicing and related molecular phenotypes; used here via the AlphaGenome API to score cohort, gnomAD, and ISM variants. See [References](#references) and [AlphaGenome docs](https://www.alphagenomedocs.com/). |
-| **ISM** | In silico mutagenesis: every single-nucleotide substitution in a region or intron is scored in silico (saturation mutagenesis). |
+| **ISM** | In silico mutagenesis: the pipeline scores every single-nucleotide substitution in a region or intron in silico (saturation mutagenesis). |
 | **MSEA** | Motif set enrichment analysis: preranked enrichment of 7-mer motif sets built from ISM splice-impact scores (`.rnk` + `.gmt` inputs). Implemented with GSEA-style preranked methods (`fgsea` / clusterProfiler). See [References](#references). |
 | **ISS / ESE** | Intronic splicing silencer / exonic splicing enhancer: cis-regulatory motifs whose disruption can alter splicing. |
-| **BH** | Benjamini–Hochberg multiple-testing correction applied to sliding-window hotspot tests within each intron. |
+| **BH** | Benjamini–Hochberg multiple-testing correction that we apply to sliding-window hotspot tests within each intron. |
 | **FDR** | False discovery rate; significance threshold for hotspot windows (default 0.05). |
 | **NES** | Normalized enrichment score from MSEA output (direction and magnitude of motif-set enrichment). |
 | **H/M** | High or Moderate impact ISM variants (splice-site max quantile ≥ 0.999 or ≥ 0.99). |
@@ -37,7 +37,7 @@ Methods and software cited in this repository:
   In this repo, preranked MSEA runs use `fgsea` (Korotkevich, G. et al., *bioRxiv* 2019, https://doi.org/10.1101/060012) and `clusterProfiler` (Wu, T. et al., *Innovation* **2**, 100141, 2021, https://doi.org/10.1016/j.xinn.2021.100141) via `run_complementary_motif_analysis.ipynb`.
 
 ## Data availability
-Targeted RNA-seq BAM files (+ `.bai` indexes) are archived on Zenodo:
+We archived targeted RNA-seq BAM files (+ `.bai` indexes) on Zenodo:
 
 **DOI:** [10.5281/zenodo.19854065](https://doi.org/10.5281/zenodo.19854065)
 
@@ -106,7 +106,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
     └── bams2/                                                     # gitignored — cohort 2 BAMs (local only)
 ```
 
-> **Targeted RNA-seq BAM files**: the 21 BAMs (+ `.bai` indexes) referenced by `targeted_rnaseq/samples.tsv` are archived on Zenodo: [10.5281/zenodo.19854065](https://doi.org/10.5281/zenodo.19854065). Download them into `targeted_rnaseq/bams/` (preserving filenames) before reproducing the sashimi plots.
+> **Targeted RNA-seq BAM files**: the 21 BAMs (+ `.bai` indexes) referenced by `targeted_rnaseq/samples.tsv` sit on Zenodo: [10.5281/zenodo.19854065](https://doi.org/10.5281/zenodo.19854065). Download them into `targeted_rnaseq/bams/` (preserving filenames) before reproducing the sashimi plots.
 
 ## Workflow Overview
 
@@ -120,10 +120,10 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
    - per-hotspot-intron motif inputs for MSEA (`motif_scores.rnk`, `motif_sets.gmt`, `motif_sequences.fasta`) via `motif_enrichment_pipeline.py` (hotspot introns 1, 4, 6, 30, 44, 49), with motif → variant traceability in `motif_scores_table.csv`;
    - an in-R MSEA cross-check per hotspot intron via `run_complementary_motif_analysis.ipynb` (clusterProfiler/fgsea + enrichplot/ggseqlogo/pheatmap), output to `plots_alphagenome_ISM_Intron<N>/complementary_motif_analysis/`;
    - cohort-level summary figures via `plot_gsea_cohort_summary.py` (MSEA NES heatmap) and `plot_hotspot_motif_disruptions.py` (strict ISS/ESE motif-disruption counts).
-3. **`targeted_rnaseq/`** — sample sheets, palettes, and sashimi figures for two RNA-seq cohorts (`samples.tsv` / `palette.tsv` and `samples2.tsv` / `palette2.tsv`). BAMs are gitignored due to size; cohort 1 BAMs are on Zenodo (see below).
+3. **`targeted_rnaseq/`** — sample sheets, palettes, and sashimi figures for two RNA-seq cohorts (`samples.tsv` / `palette.tsv` and `samples2.tsv` / `palette2.tsv`). We gitignore BAMs due to size; cohort 1 BAMs are on Zenodo (see below).
 
 ## Conda Environments and JupyterLab
-Two Conda environments are used:
+We use two Conda environments:
 
 ```bash
 # Python env for AlphaGenome notebooks and motif_enrichment_pipeline.py
@@ -134,7 +134,7 @@ python -m ipykernel install --user --name alphagenome-env --display-name "alphag
 # R env for the complementary motif MSEA notebook
 conda env create -f coda/r-motif-gsea-env.yml
 conda activate r-motif-gsea-env
-# IRkernel registration is handled inside the notebook on first run
+# The notebook registers the IRkernel on first run
 
 # Launch JupyterLab from the repo root
 jupyter lab
@@ -146,7 +146,7 @@ Then open each notebook and select the matching kernel:
 
 ## Reproducibility
 
-Reproducibility details (inputs, versions, parameters, execution order, and outputs) are documented per stage:
+We document reproducibility details (inputs, versions, parameters, execution order, and outputs) per stage in:
 - `CITATION.cff`
 - `coda/README.md`
 - `coda/alphagenome-env.yml`, `coda/r-motif-gsea-env.yml`
