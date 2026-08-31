@@ -134,20 +134,18 @@ def load_hm_contexts(cfg: IntronConfig) -> pd.DataFrame:
 
 # Mirrors ISM_motif_annotation.ipynb — ordered most-specific to least-specific.
 MOTIF_RULES: list[tuple[str, str, str]] = [
-    (r"CTAGG|TTAGG|TAGG", "hnRNP A1/A2", "ISS"),
+    (r"TAGGG|CTAGG|TTAGG", "hnRNP A1/A2", "ISS"),
     (r"TTCTT|TCTTT|TCTT", "PTBP1", "ISS"),
-    (r"CTTC", "PTBP1/hnRNP A1", "ISS"),
-    (r"TCTCTC|TCTCGG|TCTCG", "PTBP1", "ISS"),
-    (r"GGGGG|GGGG|GGG", "hnRNP H/F", "ISS"),
-    (r"TTTTT|TTTTTT", "TIA1/hnRNP C", "ISS"),
-    (r"TTTT", "TIA1/hnRNP C", "ISS"),
+    (r"CTTC", "PTBP1", "ISS"),                    # dropped hnRNP A1
+    (r"TCTCTC", "PTBP1", "ISS"),                  # dropped TCTCGG/TCTCG (not pyrimidine-pure)
+    (r"GGGGG|GGGG|GGG", "hnRNP H/F", "ISE/ISS"),  # context-dependent, not blanket ISS
+    (r"TTTTT|TTTTTT", "TIA1/TIAL1", "ISE"),       # split out — enhancer-leaning
+    (r"TTTT", "hnRNP C", "ISS"),                  # split out — silencer-leaning
     (r"GAAGAA|AAGAAG", "SRSF1", "ESE"),
-    (r"GGAGG", "SRSF1", "ESE"),
-    (r"AGTAAG", "SRSF2/SC35", "ESE"),
     (r"AGGAC", "SRSF5/SRp40", "ESE"),
     (r"[CT]CA[CT]", "NOVA1/2", "ISE/ISS"),
     (r"TGCATG|GCATG", "RBFOX1/2", "ISE/ISS"),
-    (r"CG", "CpG-associated", "ISS"),
+    (r"CG", "CG-enrichment (MSEA-derived)", "unassigned"),
 ]
 
 CLASS_ORDER = ["ISS", "ESE", "ISE/ISS"]

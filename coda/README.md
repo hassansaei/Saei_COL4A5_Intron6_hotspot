@@ -2,7 +2,10 @@
 
 This folder contains the reproducible Conda environment files used across
 the project. Two separate environments are maintained so the Python
-AlphaGenome stack and the R motif-GSEA stack stay isolated.
+AlphaGenome stack and the R motif-MSEA stack stay isolated.
+
+Term definitions (including **MSEA**, motif set enrichment analysis): see the
+[Glossary](../README.md#glossary) in the repository root README.
 
 ## Files
 
@@ -12,7 +15,7 @@ AlphaGenome stack and the R motif-GSEA stack stay isolated.
   (including `motif_enrichment_pipeline.py`). Notebook kernel:
   `alphagenome-env`.
 - `r-motif-gsea-env.yml` — R env (R ≥ 4.3) for the complementary motif
-  GSEA notebook
+  MSEA notebook
   `notebooks/02_postprocessing_plots_summary/run_complementary_motif_analysis.ipynb`.
   Provides `r-base`, `r-irkernel`, `r-biocmanager`, `r-ggplot2`,
   `r-pheatmap`, `r-ggseqlogo`, `r-gdtools`, plus build toolchain

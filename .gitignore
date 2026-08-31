@@ -1,3 +1,7 @@
+# Local Cursor rules and agent style (not shared via git)
+.cursor/
+.agent-style/
+
 # Secrets / API keys (never commit)
 alphagenome_api_key.txt
 *.key

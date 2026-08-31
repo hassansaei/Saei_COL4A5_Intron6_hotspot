@@ -6,7 +6,9 @@ It turns primary AlphaGenome CSV outputs from `../01_alphagenome_analysis/` into
 The workflow spans:
 - **Single-window ISM** (intron 6 hotspot, 160 bp; intron 47 control)
 - **Full-gene batch ISM** across all COL4A5 introns, with cross-intron hotspot comparison
-- **Per-hotspot-intron motif enrichment** (introns 1, 4, 6, 30, 44, 49) and cohort summaries
+- **Per-hotspot-intron MSEA** (motif set enrichment analysis; introns 1, 4, 6, 30, 44, 49) and cohort summaries
+
+Term definitions (AlphaGenome, ISM, MSEA, ISS/ESE, BH, FDR, NES, H/M): see the [Glossary](../../README.md#glossary) in the repository root README.
 
 ## Notebooks in this folder
 
@@ -53,7 +55,7 @@ The workflow spans:
   - Annotates motif-level ISM outputs.
   - Reads `motif_scores_table.csv` and writes `motif_scores_annotated.csv`.
 - `run_complementary_motif_analysis.ipynb` (R notebook, kernel `R (r-motif-gsea-env)`)
-  - Independent in-R reimplementation of motif GSEA, complementary to the Python/CLI GSEA preranked run.
+  - Independent in-R reimplementation of motif MSEA, complementary to the Python/CLI preranked MSEA run.
   - Parameters cell: set `input_dir` and `output_dir` to the per-intron folder
     (e.g. `plots_alphagenome_ISM_Intron6/` →
     `plots_alphagenome_ISM_Intron6/complementary_motif_analysis/`).
@@ -66,12 +68,12 @@ The workflow spans:
     - `gsea_curve_enriched_<set>_r.png` and `gsea_curve_depleted_<set>_r.png` (top-N curves, default N = 5)
     - `leading_edge_membership_heatmap_r.png` and a leading-edge sequence-logo PNG
   - Tunable parameters in the first cell: `min_size`, `max_size`, `top_curves`, RNG seed.
-  - Run once per hotspot intron (1, 4, 6, 30, 44, 49) before the cohort GSEA summary script.
+  - Run once per hotspot intron (1, 4, 6, 30, 44, 49) before the cohort MSEA summary script.
 
 ## Scripts in this folder
 
 - `motif_enrichment_pipeline.py`
-  - Builds 7-mer motif scores and GSEA input files for a **single hotspot intron** per run.
+  - Builds 7-mer motif scores and MSEA input files for a **single hotspot intron** per run.
   - Edit the PARAMETERS block: `INPUT_CSV`, `REFERENCE_SEQ`, `region_start`, and
     `OUTPUT_DIR`. Comment blocks document all six hotspot introns (1, 4, 6, 30, 44, 49)
     with genomic coordinates and reference sequences.
@@ -86,14 +88,14 @@ The workflow spans:
   - Outputs (written to `OUTPUT_DIR`, default `plots_alphagenome_ISM_Intron<N>/`):
     - `motif_scores_table.csv` — includes a `Creating Variants` column listing the
       unique `Variant ID`s that produced each motif (preserves motif → variant traceability).
-    - `motif_scores.rnk` — two-column GSEA preranked input (`motif`, score).
+    - `motif_scores.rnk` — two-column preranked MSEA input (`motif`, score).
     - `motif_sets.gmt` — motif sets built from non-positional 3-mers, simple
       homopolymer repeats (`X-repeat`), and `CG-core`/`AG-core` families.
     - `motif_sequences.fasta` — one record per unique motif, used by MEME / `ggseqlogo`.
-  - These files feed both the CLI GSEA preranked workflow and the R notebook above.
+  - These files feed both the CLI preranked MSEA workflow and the R notebook above.
 
 - `plot_gsea_cohort_summary.py`
-  - Aggregates per-intron R GSEA results into one cohort heatmap.
+  - Aggregates per-intron R MSEA results into one cohort heatmap.
   - Reads `plots_alphagenome_ISM_Intron<N>/complementary_motif_analysis/gsea_results_r.csv`
     for each hotspot intron (default: 1, 4, 6, 30, 44, 49).
   - Rebuilds `motif_enrichment_cohort_summary/gsea_results_all_introns.csv`.
@@ -187,10 +189,10 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
 - `plots_alphagenome_ISM_intron47/`
   - Intron 47 postprocessing outputs from `alphagenome_analysis_notebook_ISM_intron47.ipynb`.
 
-## Motif enrichment output
+## Motif enrichment (MSEA) output
 
 - `motif_analysis.GseaPreranked.<timestamp>/`
-  - Contains GSEA report pages, `edb/` files, and enrichment tables generated from preranked motif analysis.
+  - Contains preranked MSEA report pages, `edb/` files, and enrichment tables generated from the `.rnk` / `.gmt` inputs.
 
 ## Recommended run order
 
@@ -201,11 +203,11 @@ Expected upstream inputs come from `../01_alphagenome_analysis/`:
 5. For each hotspot intron (1, 4, 6, 30, 44, 49):
    - Edit and run `motif_enrichment_pipeline.py` (set `INPUT_CSV`, `REFERENCE_SEQ`, `region_start`, `OUTPUT_DIR`).
    - Run `run_complementary_motif_analysis.ipynb` with matching `input_dir` / `output_dir`.
-6. Run `plot_gsea_cohort_summary.py` to build the cohort GSEA heatmap.
+6. Run `plot_gsea_cohort_summary.py` to build the cohort MSEA NES heatmap.
 7. Run `plot_hotspot_motif_disruptions.py` for strict ISS/ESE disruption counts and
    H/M ref/mutant 7-mer FASTAs across hotspots.
 8. (Optional) Run `ISM_motif_annotation.ipynb` on a per-intron `motif_scores_table.csv`.
-9. (Optional) run GSEA preranked using the generated `.rnk` and `.gmt`, then review outputs in `motif_analysis.GseaPreranked.*`.
+9. (Optional) run preranked MSEA using the generated `.rnk` and `.gmt`, then review outputs in `motif_analysis.GseaPreranked.*`.
 
 ## Environment
 
