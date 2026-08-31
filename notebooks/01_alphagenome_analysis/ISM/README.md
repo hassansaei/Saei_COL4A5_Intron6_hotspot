@@ -43,7 +43,7 @@ grep "NM_033380" ncbiRefSeq.txt
 
 # 4. Generate BED / TSV / FASTA of all intronic sequences for the transcript
 python3 extract_introns.py NM_033380.3
-#   → COL4A5_NM_033380.3_introns.{bed,tsv,fa}
+#   writes COL4A5_NM_033380.3_introns.{bed,tsv,fa}
 #
 #   Other examples:
 #     python3 extract_introns.py NM_000091.5 --gene COL4A3

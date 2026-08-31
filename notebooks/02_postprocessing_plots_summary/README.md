@@ -56,9 +56,9 @@ Term definitions (AlphaGenome, ISM, MSEA, ISS/ESE, BH, FDR, NES, H/M): see the [
   - Reads `motif_scores_table.csv` and writes `motif_scores_annotated.csv`.
 - `run_complementary_motif_analysis.ipynb` (R notebook, kernel `R (r-motif-gsea-env)`)
   - Independent in-R reimplementation of motif MSEA, complementary to the Python/CLI preranked MSEA run.
-  - Parameters cell: set `input_dir` and `output_dir` to the per-intron folder
-    (e.g. `plots_alphagenome_ISM_Intron6/` →
-    `plots_alphagenome_ISM_Intron6/complementary_motif_analysis/`).
+  - Parameters cell: set `input_dir` and `output_dir` for the per-intron folder
+    (e.g. `input_dir = plots_alphagenome_ISM_Intron6/` and
+    `output_dir = plots_alphagenome_ISM_Intron6/complementary_motif_analysis/`).
   - Reads `motif_scores.rnk` and `motif_sets.gmt` from `input_dir`.
   - Uses `clusterProfiler::GSEA` (via `fgsea`), with `enrichplot`, `ggseqlogo`, and `pheatmap` for visualization.
   - Writes all outputs to `complementary_motif_analysis/` under the chosen intron folder:
@@ -87,7 +87,7 @@ Term definitions (AlphaGenome, ISM, MSEA, ISS/ESE, BH, FDR, NES, H/M): see the [
     `VARIANT_SCORE_COLUMN` and `AGG_SCORE_COLUMN`.
   - Outputs (written to `OUTPUT_DIR`, default `plots_alphagenome_ISM_Intron<N>/`):
     - `motif_scores_table.csv` — includes a `Creating Variants` column listing the
-      unique `Variant ID`s that produced each motif (preserves motif → variant traceability).
+      unique `Variant ID`s that produced each motif (preserves motif-to-variant traceability).
     - `motif_scores.rnk` — two-column preranked MSEA input (`motif`, score).
     - `motif_sets.gmt` — motif sets built from non-positional 3-mers, simple
       homopolymer repeats (`X-repeat`), and `CG-core`/`AG-core` families.

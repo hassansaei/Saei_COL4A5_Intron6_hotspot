@@ -181,7 +181,7 @@ Notes:
   If you prefer **identity mapping** (rendered color ≡ the hex you wrote
   in column 3), just copy those 4 hexes verbatim into `palette.tsv` in the
   same order.
-- `-o sashimi_COL4A5_intron6` (no extension) → ggsashimi appends `.pdf`,
+- `-o sashimi_COL4A5_intron6` (no extension); ggsashimi appends `.pdf`,
   producing `sashimi_COL4A5_intron6.pdf`.
 - `--platform linux/amd64` is required on Apple Silicon (M-series) Macs
   because the published image is amd64-only.
@@ -197,7 +197,7 @@ Notes:
 | `-g` | GTF annotation (gzipped OK) | `annotation/gencode.v19.annotation.gtf.gz` (hg19) |
 | `-M` | min reads to draw a junction arc | `15` |
 | `-C` | TSV column (1-based) defining color groups | `3` (hex column — used as a *factor*, not as literal color) |
-| `-P` | palette file: one color per line, line *i* → *i*-th unique level of `-C` column in order of first appearance | `targeted_rnaseq/palette.tsv` |
+| `-P` | palette file: one color per line; line *i* gives the *i*-th unique level of `-C` column in order of first appearance | `targeted_rnaseq/palette.tsv` |
 | `-O` | TSV column (1-based) for **overlay** (aggregating samples per track) | not used in the final runs (would require adding a 4th column with condition labels to `samples.tsv`) |
 | `-A` | aggregation function for `-O`: `mean / median / mean_j / median_j` | not used (kept per-replicate tracks) |
 | `--alpha` | coverage transparency (0–1) | `0.9` |
@@ -206,7 +206,7 @@ Notes:
 | `--width` | total figure width (inches) | `10` (default 10) |
 | `--ann-height` | height of GTF annotation track (inches) | `3` (default 1.5) |
 | `--base-size` | base ggplot font size (pt) | `20` (default 14) |
-| `-o` | output prefix → writes `<prefix>.pdf` | run-specific |
+| `-o` | output prefix; writes `<prefix>.pdf` | run-specific |
 
 ---
 

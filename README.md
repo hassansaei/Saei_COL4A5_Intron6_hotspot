@@ -117,7 +117,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 2. **`notebooks/02_postprocessing_plots_summary/`** — turns those CSVs into:
    - cohort/gnomAD/ISM summary tables, score heatmaps, and pathogenicity calls (`alphagenome_analysis_notebook_ISM.ipynb`, `alphagenome_analysis_notebook_ISM_intron47.ipynb`, `alphagenome_analysis_notebook_cohort.ipynb`, `alphagenome_analysis_notebook_genomAD.ipynb`);
    - a gene-agnostic all-introns summary with cross-intron hotspot comparison (`alphagenome_analysis_notebook_ISM_all_introns.ipynb`, consuming a `../01_alphagenome_analysis/alphagenome_ISM_<GENE>/` batch run); hotspot **concentration** uses one representative interior hotspot per intron (`CONCENTRATION_MODE = 'top_hotspot'`);
-   - per-hotspot-intron motif inputs for MSEA (`motif_scores.rnk`, `motif_sets.gmt`, `motif_sequences.fasta`) via `motif_enrichment_pipeline.py` (hotspot introns 1, 4, 6, 30, 44, 49), with motif → variant traceability in `motif_scores_table.csv`;
+   - per-hotspot-intron motif inputs for MSEA (`motif_scores.rnk`, `motif_sets.gmt`, `motif_sequences.fasta`) via `motif_enrichment_pipeline.py` (hotspot introns 1, 4, 6, 30, 44, 49), with motif-to-variant traceability in `motif_scores_table.csv`;
    - an in-R MSEA cross-check per hotspot intron via `run_complementary_motif_analysis.ipynb` (clusterProfiler/fgsea + enrichplot/ggseqlogo/pheatmap), output to `plots_alphagenome_ISM_Intron<N>/complementary_motif_analysis/`;
    - cohort-level summary figures via `plot_gsea_cohort_summary.py` (MSEA NES heatmap) and `plot_hotspot_motif_disruptions.py` (strict ISS/ESE motif-disruption counts).
 3. **`targeted_rnaseq/`** — sample sheets, palettes, and sashimi figures for two RNA-seq cohorts (`samples.tsv` / `palette.tsv` and `samples2.tsv` / `palette2.tsv`). We gitignore BAMs due to size; cohort 1 BAMs are on Zenodo (see below).
@@ -141,8 +141,8 @@ jupyter lab
 ```
 
 Then open each notebook and select the matching kernel:
-- Python notebooks → `alphagenome-env` (Python 3.11)
-- `run_complementary_motif_analysis.ipynb` → `R (r-motif-gsea-env)`
+- Python notebooks: use `alphagenome-env` (Python 3.11)
+- `run_complementary_motif_analysis.ipynb`: use `R (r-motif-gsea-env)`
 
 ## Reproducibility
 
