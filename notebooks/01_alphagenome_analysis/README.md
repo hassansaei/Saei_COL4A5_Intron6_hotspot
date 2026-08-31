@@ -5,7 +5,7 @@ This folder contains the primary AlphaGenome workflows for the `COL4A5` intron 6
 ## Notebooks in this folder
 
 - `alphagenome_cohort_analysis.ipynb`
-  - Cohort-focused variant analysis (13 variants).
+  - Cohort-focused variant analysis (19 variants).
   - Exports per-variant plots and per-variant splice scorer CSV files.
 - `alphagenome_genomAD_analysis.ipynb`
   - gnomAD variant panel analysis (14 variants).
