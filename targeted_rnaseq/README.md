@@ -137,7 +137,7 @@ docker run --rm --platform linux/amd64 -w "$PWD" -v "$PWD":"$PWD" \
   guigolab/ggsashimi \
   -b "$PWD/targeted_rnaseq/samples.tsv" \
   -c chrX:107811500-107815000 \
-  -M 15 \
+  -M 100 \
   -C 3 \
   -P "$PWD/targeted_rnaseq/palette.tsv" \
   --alpha 0.9 \
