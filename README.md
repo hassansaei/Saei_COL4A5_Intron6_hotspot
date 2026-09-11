@@ -2,7 +2,7 @@
 
 # Mapping deep intronic mutational hotspots by in silico mutagenesis enables single antisense oligonucleotide correction of multiple variants
 
-**Authors:** Hassan Saei, Béatrice Ardin, Nicolas Kaiser, Mouad Ouahmane, Olivier Gribouval, Vincent Moriniere, Florian J. Wopperer, Korbinian M. Riedhammer, Daniel P. Gale, Omid Sadeghi-Alavijeh, Claire Goursaud, Olivier Grunewald, Chloe Proposer, Louis Lebreton, Marion Rabant, Carsten Bergmann, Corinne Antignac, Michael S. Wiesener, Guillaume Dorval
+**Authors:** Hassan Saei, Béatrice Ardin, Nicolas Kaiser, Mouad Ouahmane, Olivier Gribouval, Vincent Moriniere, Florian J. Wopperer, Korbinian M. Riedhammer, Daniel P. Gale, Omid Sadeghi-Alavijeh, Claire Goursaud, Olivier Grunewald, Chloe Prosper, Louis Lebreton, Marion Rabant, Carsten Bergmann, Corinne Antignac, Michael S. Wiesener, Guillaume Dorval
 
 This repository contains scripts and notebooks used to generate figures for the manuscript on deep intronic variation hotspot(s) in `COL4A5` responsible for X-linked Alport syndrome. 
 
