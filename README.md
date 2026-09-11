@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.png" alt="Deep-intronic mutational hotspot schematic: exons as boxes, a concentrated intron hotspot, and a smaller secondary site" width="560">
+  <img src="docs/logo.jpg" alt="Deep-intronic mutational hotspot schematic: exons as boxes, a concentrated intron hotspot, and a smaller secondary site" width="560">
 </p>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19854065.svg)](https://doi.org/10.5281/zenodo.19854065)
@@ -55,7 +55,7 @@ Download the archive and place the files in `targeted_rnaseq/bams/` (preserving 
 ├── CITATION.cff
 ├── LICENSE
 ├── docs/
-│   └── logo.png                       # repository logo (intron hotspot schematic)
+│   └── logo.jpg                       # repository logo (intron hotspot schematic)
 ├── coda/                              # Conda environment specs
 │   ├── README.md
 │   ├── alphagenome-env.yml            # Python env for AlphaGenome notebooks
