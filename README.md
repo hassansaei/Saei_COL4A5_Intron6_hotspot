@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.jpg" alt="Deep-intronic mutational hotspot schematic: exons as boxes, a concentrated intron hotspot, and a smaller secondary site" width="720">
+  <img src="docs/logo.jpg" alt="Deep-intronic mutational hotspot schematic: exons as boxes, a concentrated intron hotspot, and a smaller secondary site" width="360">
 </p>
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19854065.svg)](https://doi.org/10.5281/zenodo.19854065)
